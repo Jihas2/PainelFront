@@ -5,6 +5,7 @@ import { TipoUsuario } from '../models/enum';
 import { Usuario } from '../models/usuario';
 import { jwtDecode, JwtPayload } from 'jwt-decode';
 import { Login } from './login';
+import { environment } from '../../environments/environment';
 
 export interface LoginResponse {
   token: string;
@@ -28,12 +29,11 @@ export interface DecodedToken {
 })
 export class AuthService {
   http = inject(HttpClient);
-  private API = 'http://localhost:8080/api/usuarios';
+  private API = `${environment.apiUrl}/api/usuarios`;
 
   logar(login: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.API}/login`, login).pipe(
       tap((response) => {
-        // Armazena os dados do usuário no localStorage
         const usuario = {
           id: response.id,
           nome: response.nome,

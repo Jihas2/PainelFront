@@ -2,14 +2,14 @@ import { inject, Injectable } from '@angular/core';
 import { Extratofinanceiro } from '../models/extratofinanceiro';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ExtratofinanceiroService {
   http = inject(HttpClient);
-
-  API = 'http://localhost:8080/api/extratos';
+  API = `${environment.apiUrl}/api/extratos`;
 
   constructor() {}
 
@@ -17,17 +17,11 @@ export class ExtratofinanceiroService {
     return this.http.get<Extratofinanceiro>(`${this.API}/data/${data}`);
   }
 
-  buscarExtratosPorPeriodo(
-    dataInicio: string,
-    dataFim: string
-  ): Observable<Extratofinanceiro[]> {
+  buscarExtratosPorPeriodo(dataInicio: string, dataFim: string): Observable<Extratofinanceiro[]> {
     const params = new HttpParams()
       .set('dataInicio', dataInicio)
       .set('dataFim', dataFim);
-
-    return this.http.get<Extratofinanceiro[]>(`${this.API}/periodo`, {
-      params,
-    });
+    return this.http.get<Extratofinanceiro[]>(`${this.API}/periodo`, { params });
   }
 
   buscarExtratosMes(ano: number, mes: number): Observable<Extratofinanceiro[]> {
@@ -47,20 +41,13 @@ export class ExtratofinanceiroService {
   }
 
   atualizarExtratoDia(data: string): Observable<Extratofinanceiro> {
-    return this.http.post<Extratofinanceiro>(
-      `${this.API}/atualizar/${data}`,
-      {}
-    );
+    return this.http.post<Extratofinanceiro>(`${this.API}/atualizar/${data}`, {});
   }
 
-  regenerarExtratosPeriodo(
-    dataInicio: string,
-    dataFim: string
-  ): Observable<string> {
+  regenerarExtratosPeriodo(dataInicio: string, dataFim: string): Observable<string> {
     const params = new HttpParams()
       .set('dataInicio', dataInicio)
       .set('dataFim', dataFim);
-
     return this.http.post<string>(`${this.API}/regenerar`, {}, { params });
   }
 

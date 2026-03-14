@@ -5,11 +5,11 @@ import { catchError, throwError } from 'rxjs';
 import Swal from 'sweetalert2';
 
 export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
- let router = inject(Router);
+  let router = inject(Router);
 
   let token = localStorage.getItem('token');
   
-  if (token && !router.url.includes('/login')) {
+  if (token) {
     request = request.clone({
       setHeaders: { Authorization: 'Bearer ' + token },
     });
@@ -20,25 +20,23 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
       if (err instanceof HttpErrorResponse) {
         
         if (err.status === 401) {
-           Swal.fire({
-          icon: 'error',
-          title: 'Erro: 401',
-          text: "Usuário não autenticado, entre novamente",
-        }).then(() => router.navigate(['/login']));
-        } else
-        if (err.status === 403) {
-           Swal.fire({
-          icon: 'error',
-          title: 'Erro: 403',
-          text: "Você não possui permissão para acessar esta função",
-        }).then(() => router.navigate(['/login']));
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro: 401',
+            text: "Usuário não autenticado, entre novamente",
+          }).then(() => router.navigate(['/login']));
+        } else if (err.status === 403) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Erro: 403',
+            text: "Você não possui permissão para acessar esta função",
+          });
         } else {
           console.error('HTTP error:', err);
         }
 
-
       } else {
-         Swal.fire({
+        Swal.fire({
           icon: 'error',
           title: 'Acesso negado',
           text: err.message,

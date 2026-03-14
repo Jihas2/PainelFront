@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { Usuario } from '../models/usuario';
 import { TipoUsuario } from '../models/enum';
 import { AuthService } from '../auth/auth.service';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -12,11 +13,10 @@ export class UsuarioService {
   http = inject(HttpClient);
   authService = inject(AuthService);
 
-  private apiUrl = 'http://localhost:8080/api/usuarios';
+  private apiUrl = `${environment.apiUrl}/api/usuarios`;
 
   constructor() {}
 
-  // Cria headers com informações do usuário logado
   private criarHeaders(): HttpHeaders {
     const usuario = this.authService.getUsuarioLogado();
     
@@ -25,9 +25,7 @@ export class UsuarioService {
     
     if (!usuario) {
       console.error('❌ Nenhum usuário logado encontrado!');
-      return new HttpHeaders({
-        'Content-Type': 'application/json'
-      });
+      return new HttpHeaders({ 'Content-Type': 'application/json' });
     }
 
     const headers = new HttpHeaders({
@@ -50,38 +48,26 @@ export class UsuarioService {
 
   listarTodos(): Observable<Usuario[]> {
     console.log('🔄 Chamando API para listar todos os usuários');
-    return this.http.get<Usuario[]>(this.apiUrl, { 
-      headers: this.criarHeaders() 
-    });
+    return this.http.get<Usuario[]>(this.apiUrl, { headers: this.criarHeaders() });
   }
 
   buscarPorId(id: number): Observable<Usuario> {
-    return this.http.get<Usuario>(`${this.apiUrl}/${id}`, { 
-      headers: this.criarHeaders() 
-    });
+    return this.http.get<Usuario>(`${this.apiUrl}/${id}`, { headers: this.criarHeaders() });
   }
 
   atualizar(id: number, usuario: Usuario): Observable<any> {
-    return this.http.put(`${this.apiUrl}/${id}`, usuario, { 
-      headers: this.criarHeaders() 
-    });
+    return this.http.put(`${this.apiUrl}/${id}`, usuario, { headers: this.criarHeaders() });
   }
 
   excluir(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/${id}`, { 
-      headers: this.criarHeaders() 
-    });
+    return this.http.delete(`${this.apiUrl}/${id}`, { headers: this.criarHeaders() });
   }
 
   desativar(id: number): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}/desativar`, {}, { 
-      headers: this.criarHeaders() 
-    });
+    return this.http.patch(`${this.apiUrl}/${id}/desativar`, {}, { headers: this.criarHeaders() });
   }
 
   reativar(id: number): Observable<any> {
-    return this.http.patch(`${this.apiUrl}/${id}/reativar`, {}, { 
-      headers: this.criarHeaders() 
-    });
+    return this.http.patch(`${this.apiUrl}/${id}/reativar`, {}, { headers: this.criarHeaders() });
   }
 }

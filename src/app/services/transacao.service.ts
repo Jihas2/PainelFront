@@ -2,14 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Transacao } from '../models/transacao';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TransacaoService {
   http = inject(HttpClient);
-
-  API = 'http://localhost:8080/api/transacoes';
+  API = `${environment.apiUrl}/api/transacoes`;
 
   constructor() {}
 
@@ -17,10 +17,7 @@ export class TransacaoService {
     return this.http.post<Transacao>(this.API, transacao);
   }
 
-  criarTransacaoComItens(request: {
-    transacao: Transacao;
-    itens: any[];
-  }): Observable<Transacao> {
+  criarTransacaoComItens(request: { transacao: Transacao; itens: any[] }): Observable<Transacao> {
     return this.http.post<Transacao>(`${this.API}/com-itens`, request);
   }
 
@@ -36,10 +33,7 @@ export class TransacaoService {
     return this.http.get<Transacao>(`${this.API}/${id}/com-itens`);
   }
 
-  buscarTransacoesPorPeriodo(
-    dataInicio: string,
-    dataFim: string
-  ): Observable<Transacao[]> {
+  buscarTransacoesPorPeriodo(dataInicio: string, dataFim: string): Observable<Transacao[]> {
     const params = new HttpParams()
       .set('dataInicio', dataInicio)
       .set('dataFim', dataFim);
@@ -51,9 +45,7 @@ export class TransacaoService {
   }
 
   buscarDebitosAPrazoMes(ano: number, mes: number): Observable<Transacao[]> {
-    return this.http.get<Transacao[]>(
-      `${this.API}/debitos-prazo/${ano}/${mes}`
-    );
+    return this.http.get<Transacao[]>(`${this.API}/debitos-prazo/${ano}/${mes}`);
   }
 
   atualizarTransacao(id: number, transacao: Transacao): Observable<Transacao> {
@@ -61,10 +53,7 @@ export class TransacaoService {
   }
 
   atualizarQuantidadeItens(id: number, quantidade: number): Observable<Transacao> {
-    return this.http.put<Transacao>(
-      `${this.API}/${id}/atualizar-quantidade-itens`,
-      { quantidade }
-    );
+    return this.http.put<Transacao>(`${this.API}/${id}/atualizar-quantidade-itens`, { quantidade });
   }
 
   excluirTransacao(id: number): Observable<void> {
@@ -72,9 +61,6 @@ export class TransacaoService {
   }
 
   buscarTransacoesPorCaracteristica(caracteristica: string): Observable<Transacao[]> {
-    return this.http.get<Transacao[]>(
-      `${this.API}/buscar`,
-      { params: { caracteristica } }
-    );
+    return this.http.get<Transacao[]>(`${this.API}/buscar`, { params: { caracteristica } });
   }
 }

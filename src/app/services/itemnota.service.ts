@@ -2,20 +2,20 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Itemnota } from '../models/itemnota';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ItemnotaService {
   http = inject(HttpClient);
-
-  API = 'http://localhost:8080/api/itens-nota';
+  API = `${environment.apiUrl}/api/itens-nota`;
 
   constructor() {}
 
   buscarTodosItens(): Observable<Itemnota[]> {
-      return this.http.get<Itemnota[]>(this.API);
-    }
+    return this.http.get<Itemnota[]>(this.API);
+  }
 
   buscarItensPorTransacao(transacaoId: number): Observable<Itemnota[]> {
     return this.http.get<Itemnota[]>(`${this.API}/transacao/${transacaoId}`);
