@@ -14,7 +14,7 @@ export class CambiohistoricoService {
   constructor() {}
 
   atualizarTaxaDia(): Observable<Taxacambio>{
-    return this.http.get<Taxacambio>(this.API + '/atualizar');
+    return this.http.get<Taxacambio>(this.API + '/taxa-hoje');
   }
   
   buscarUltimaTaxa(): Observable<Taxacambio> {

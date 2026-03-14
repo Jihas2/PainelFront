@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
   dashboardData: any = {};
   anoAtual: number = new Date().getFullYear();
   mesAtual: number = new Date().getMonth() + 1;
-  taxaCambioAtual: number = 5.8; 
+  taxaCambioAtual: number = 5.8;
 
   private chart: Chart<'doughnut', number[], any> | null = null;
 
@@ -42,19 +42,13 @@ export class DashboardComponent implements OnInit, OnDestroy {
   carregarTaxaCambio() {
     this.cambioService.atualizarTaxaDia().subscribe({
       next: (taxa: any) => {
-        
-        if (typeof taxa === 'number') {
-          this.taxaCambioAtual = taxa;
-        } else if (taxa && taxa.cambio) {
-          this.taxaCambioAtual = taxa.cambio;
-        } else if (taxa && taxa.taxaUsdBrl) {
+        if (taxa && taxa.taxaUsdBrl) {
           this.taxaCambioAtual = taxa.taxaUsdBrl;
         }
         console.log('Taxa de câmbio carregada:', this.taxaCambioAtual);
       },
       error: (e) => {
         console.error('Erro ao carregar taxa de câmbio:', e);
-        
       },
     });
   }
@@ -137,9 +131,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
             {
               data,
               backgroundColor: [
-                'rgba(75, 192, 192, 0.7)', //Crédito
-                'rgba(255, 99, 132, 0.7)', //Débito
-                'rgba(255, 206, 86, 0.7)', //Saldo
+                'rgba(75, 192, 192, 0.7)',
+                'rgba(255, 99, 132, 0.7)',
+                'rgba(255, 206, 86, 0.7)',
               ],
               borderColor: '#fff',
               borderWidth: 2,
