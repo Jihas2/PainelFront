@@ -34,5 +34,159 @@ body {
   max-width: 50vw !important;
   width: 50vw !important;
 }
+
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
+
+// =============================================
+// Modal Editar Usuário
+// =============================================
+.modal-edit-usuario {
+  .modal-content {
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    border: none !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18) !important;
+  }
+
+  .modal-header {
+    background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%) !important;
+    border-bottom: none !important;
+    padding: 18px 24px !important;
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -16px;
+      left: 0;
+      right: 0;
+      height: 16px;
+      background: linear-gradient(to bottom, rgba(58, 12, 163, 0.07), transparent);
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .modal-title {
+      color: #fff !important;
+      font-weight: 700 !important;
+      font-size: 1.05rem !important;
+      letter-spacing: 0.3px;
+    }
+
+    i { color: rgba(255, 255, 255, 0.85) !important; }
+
+    .btn-close {
+      filter: brightness(0) invert(1) !important;
+      opacity: 0.85;
+      margin: 0 !important;
+      &:hover { opacity: 1; }
+    }
+  }
+
+  .modal-body {
+    padding: 24px 28px 8px !important;
+    background: #fff !important;
+  }
+
+  .form-label {
+    font-weight: 600 !important;
+    font-size: 0.75rem !important;
+    color: #8d99ae !important;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 5px !important;
+
+    i { color: #4361ee; }
+  }
+
+  .form-control,
+  .form-select {
+    border-radius: 8px !important;
+    border: 1.5px solid #e9ecef !important;
+    padding: 10px 14px !important;
+    font-size: 0.95rem !important;
+    color: #2b2d42 !important;
+    background-color: #fafbfc !important;
+    transition: all 0.2s ease;
+
+    &::placeholder { color: #c4c9d4 !important; }
+
+    &:focus {
+      border-color: #4361ee !important;
+      background-color: #fff !important;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.08) !important;
+    }
+  }
+
+  .form-check.form-switch {
+    background: rgba(67, 97, 238, 0.08);
+    border-radius: 8px;
+    padding: 11px 14px 11px 44px;
+    border: 1.5px solid rgba(67, 97, 238, 0.15);
+    transition: all 0.2s ease;
+
+    &:hover { background: rgba(67, 97, 238, 0.12); }
+
+    .form-check-input {
+      width: 2.2em;
+      height: 1.2em;
+      cursor: pointer;
+
+      &:checked {
+        background-color: #4361ee;
+        border-color: #4361ee;
+      }
+    }
+
+    .form-check-label {
+      font-weight: 600 !important;
+      font-size: 0.78rem !important;
+      color: #4361ee !important;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      cursor: pointer;
+    }
+  }
+
+  .modal-footer {
+    border-top: 1.5px solid #e9ecef !important;
+    padding: 14px 28px 22px !important;
+    background: #fff !important;
+    gap: 10px;
+
+    .btn {
+      padding: 10px 22px !important;
+      font-weight: 600 !important;
+      border-radius: 8px !important;
+      font-size: 0.88rem !important;
+      transition: all 0.2s ease;
+
+      &.btn-outline-secondary {
+        border: 1.5px solid #e9ecef !important;
+        color: #8d99ae !important;
+
+        &:hover {
+          background: #f1f3f5 !important;
+          color: #2b2d42 !important;
+        }
+      }
+
+      &.btn-primary {
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%) !important;
+        border: none !important;
+        box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3) !important;
+
+        &:hover {
+          transform: translateY(-1px);
+          box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4) !important;
+        }
+
+        &:disabled {
+          opacity: 0.6 !important;
+          transform: none !important;
+        }
+      }
+    }
+  }
+}

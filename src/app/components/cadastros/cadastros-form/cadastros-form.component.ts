@@ -17,7 +17,7 @@ import { TipoUsuario } from '../../../models/enum';
 })
 export class CadastrosFormComponent implements OnInit {
   @Input() usuario!: Usuario;
-  
+
   novaSenha: string = '';
   alterarSenha: boolean = false;
 
@@ -31,7 +31,6 @@ export class CadastrosFormComponent implements OnInit {
   constructor(public modalRef: MdbModalRef<CadastrosFormComponent>) {}
 
   ngOnInit() {
-    // Se não recebeu usuário, inicializa um novo
     if (!this.usuario) {
       this.usuario = new Usuario();
       this.usuario.tipoUsuario = TipoUsuario.USUARIO;
@@ -40,7 +39,6 @@ export class CadastrosFormComponent implements OnInit {
   }
 
   salvar() {
-    // Validações
     if (!this.usuario.nome || this.usuario.nome.trim() === '') {
       Swal.fire('Atenção', 'Nome é obrigatório', 'warning');
       return;
@@ -56,7 +54,6 @@ export class CadastrosFormComponent implements OnInit {
       return;
     }
 
-    // Se marcou para alterar senha, valida
     if (this.alterarSenha) {
       if (!this.novaSenha || this.novaSenha.length < 5) {
         Swal.fire('Atenção', 'A nova senha deve ter no mínimo 5 caracteres', 'warning');
@@ -65,7 +62,6 @@ export class CadastrosFormComponent implements OnInit {
       this.usuario.senha = this.novaSenha;
     }
 
-    // Prepara dados para envio
     const usuarioParaEnviar: any = {
       nome: this.usuario.nome.trim(),
       email: this.usuario.email.trim(),
@@ -73,14 +69,12 @@ export class CadastrosFormComponent implements OnInit {
       ativo: this.usuario.ativo
     };
 
-    // Só inclui senha se estiver alterando
     if (this.alterarSenha && this.novaSenha) {
       usuarioParaEnviar.senha = this.novaSenha;
     }
 
-    // Atualiza usuário
     this.usuarioService.atualizar(this.usuario.id!, usuarioParaEnviar).subscribe({
-      next: (resposta) => {
+      next: () => {
         Swal.fire('Sucesso!', 'Usuário atualizado com sucesso', 'success');
         this.fechar();
       },

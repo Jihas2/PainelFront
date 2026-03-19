@@ -1,133 +1,129 @@
-<div class="modal-header">
-  <h5 class="modal-title">Editar Usuário</h5>
-  <button type="button" class="btn-close" (click)="fechar()"></button>
-</div>
-
-<div class="modal-body">
-  <form #formulario="ngForm">
-    
-    <!-- Nome -->
-    <div class="mb-3">
-      <label mdbLabel class="form-label" for="nome">Nome:</label>
-      <input
-        mdbInput
-        required
-        type="text"
-        id="nome"
-        name="nome"
-        class="form-control"
-        [(ngModel)]="usuario.nome"
-        #nomeInput="ngModel"
-      />
-      <small class="text-danger" *ngIf="nomeInput.invalid && nomeInput.touched">
-        Nome é obrigatório
-      </small>
+<div class="modal-wrapper">
+  <div class="modal-header border-0 pb-0">
+    <div class="d-flex align-items-center gap-2">
+      <i class="fas fa-user-edit text-primary fs-5"></i>
+      <h5 class="modal-title fw-bold mb-0">Editar Usuário</h5>
     </div>
+    <button type="button" class="btn-close" (click)="fechar()"></button>
+  </div>
 
-    <!-- Email -->
-    <div class="mb-3">
-      <label mdbLabel class="form-label" for="email">Email:</label>
-      <input
-        mdbInput
-        required
-        type="email"
-        id="email"
-        name="email"
-        class="form-control"
-        [(ngModel)]="usuario.email"
-        #emailInput="ngModel"
-        email
-      />
-      <small class="text-danger" *ngIf="emailInput.invalid && emailInput.touched">
-        <span *ngIf="emailInput.errors?.['required']">Email é obrigatório</span>
-        <span *ngIf="emailInput.errors?.['email']">Email inválido</span>
-      </small>
-    </div>
+  <div class="modal-body px-4">
+    <form #formulario="ngForm">
 
-    <!-- Tipo de Usuário -->
-    <div class="mb-3">
-      <label mdbLabel class="form-label" for="tipoUsuario">Tipo de Usuário:</label>
-      <select
-        id="tipoUsuario"
-        class="form-select"
-        name="tipoUsuario"
-        [(ngModel)]="usuario.tipoUsuario"
-        required
-        #tipoInput="ngModel"
-      >
-        <option *ngFor="let tipo of tipoUsuarioList" [ngValue]="tipo.value">
-          {{ tipo.label }}
-        </option>
-      </select>
-      <small class="text-danger" *ngIf="tipoInput.invalid && tipoInput.touched">
-        Tipo de usuário é obrigatório
-      </small>
-    </div>
-
-    <!-- Status Ativo -->
-    <div class="mb-3">
-      <label mdbLabel class="form-label" for="ativo">Status:</label>
-      <select
-        id="ativo"
-        class="form-select"
-        name="ativo"
-        [(ngModel)]="usuario.ativo"
-        required
-      >
-        <option [ngValue]="true">Ativo</option>
-        <option [ngValue]="false">Inativo</option>
-      </select>
-    </div>
-
-    <!-- Alterar Senha -->
-    <div class="mb-3">
-      <div class="form-check">
-        <input
-          class="form-check-input"
-          type="checkbox"
-          id="alterarSenha"
-          [(ngModel)]="alterarSenha"
-          name="alterarSenha"
-        />
-        <label class="form-check-label" for="alterarSenha">
-          Alterar senha
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-secondary small">
+          <i class="fas fa-user me-1"></i> Nome
         </label>
+        <input
+          mdbInput
+          required
+          type="text"
+          id="nome"
+          name="nome"
+          class="form-control form-control-lg"
+          placeholder="Nome completo"
+          [(ngModel)]="usuario.nome"
+          #nomeInput="ngModel"
+        />
+        <small class="text-danger" *ngIf="nomeInput.invalid && nomeInput.touched">
+          Nome é obrigatório
+        </small>
       </div>
-    </div>
 
-    <!-- Nova Senha (se marcou para alterar) -->
-    <div class="mb-3" *ngIf="alterarSenha">
-      <label mdbLabel class="form-label" for="novaSenha">Nova Senha:</label>
-      <input
-        mdbInput
-        type="password"
-        id="novaSenha"
-        name="novaSenha"
-        class="form-control"
-        [(ngModel)]="novaSenha"
-        minlength="5"
-        [required]="alterarSenha"
-        #senhaInput="ngModel"
-      />
-      <small class="text-danger" *ngIf="senhaInput.invalid && senhaInput.touched">
-        <span *ngIf="senhaInput.errors?.['required']">Nova senha é obrigatória</span>
-        <span *ngIf="senhaInput.errors?.['minlength']">Senha deve ter no mínimo 5 caracteres</span>
-      </small>
-    </div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-secondary small">
+          <i class="fas fa-envelope me-1"></i> Email
+        </label>
+        <input
+          mdbInput
+          required
+          type="email"
+          id="email"
+          name="email"
+          class="form-control form-control-lg"
+          placeholder="email@exemplo.com"
+          [(ngModel)]="usuario.email"
+          #emailInput="ngModel"
+          email
+        />
+        <small class="text-danger" *ngIf="emailInput.invalid && emailInput.touched">
+          <span *ngIf="emailInput.errors?.['required']">Email é obrigatório</span>
+          <span *ngIf="emailInput.errors?.['email']">Email inválido</span>
+        </small>
+      </div>
 
-  </form>
-</div>
+      <div class="mb-3">
+        <label class="form-label fw-semibold text-secondary small">
+          <i class="fas fa-id-badge me-1"></i> Tipo de Usuário
+        </label>
+        <select
+          id="tipoUsuario"
+          class="form-select form-select-lg"
+          name="tipoUsuario"
+          [(ngModel)]="usuario.tipoUsuario"
+          required
+          #tipoInput="ngModel"
+        >
+          <option *ngFor="let tipo of tipoUsuarioList" [ngValue]="tipo.value">
+            {{ tipo.label }}
+          </option>
+        </select>
+        <small class="text-danger" *ngIf="tipoInput.invalid && tipoInput.touched">
+          Tipo de usuário é obrigatório
+        </small>
+      </div>
 
-<div class="modal-footer">
-  <button type="button" class="btn btn-secondary" (click)="fechar()">
-    <i class="fas fa-times"></i> Cancelar
-  </button>
-  <button
-    type="button"
-    class="btn btn-success"
-    [disabled]="!formulario.valid"
-    (click)="salvar()"
-  >
-    <i class="fas fa-save"></i> Salvar
-  </button>
+      <div class="mb-3">
+        <div class="form-check form-switch">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="alterarSenha"
+            [(ngModel)]="alterarSenha"
+            name="alterarSenha"
+          />
+          <label class="form-check-label fw-semibold text-secondary small" for="alterarSenha">
+            <i class="fas fa-lock me-1"></i> Alterar senha
+          </label>
+        </div>
+      </div>
+
+      <div class="mb-3" *ngIf="alterarSenha">
+        <label class="form-label fw-semibold text-secondary small">
+          <i class="fas fa-key me-1"></i> Nova Senha
+        </label>
+        <input
+          mdbInput
+          type="password"
+          id="novaSenha"
+          name="novaSenha"
+          class="form-control form-control-lg"
+          placeholder="Mínimo 5 caracteres"
+          [(ngModel)]="novaSenha"
+          minlength="5"
+          [required]="alterarSenha"
+          #senhaInput="ngModel"
+        />
+        <small class="text-danger" *ngIf="senhaInput.invalid && senhaInput.touched">
+          <span *ngIf="senhaInput.errors?.['required']">Nova senha é obrigatória</span>
+          <span *ngIf="senhaInput.errors?.['minlength']">Senha deve ter no mínimo 5 caracteres</span>
+        </small>
+      </div>
+
+    </form>
+  </div>
+
+  <div class="modal-footer border-0 pt-0 px-4 pb-4 gap-2">
+    <button type="button" class="btn btn-outline-secondary px-4" (click)="fechar()">
+      <i class="fas fa-times me-2"></i> Cancelar
+    </button>
+    <button
+      type="button"
+      class="btn btn-primary px-4"
+      [disabled]="!formulario.valid"
+      (click)="salvar()"
+    >
+      <i class="fas fa-save me-2"></i> Salvar
+    </button>
+  </div>
 </div>

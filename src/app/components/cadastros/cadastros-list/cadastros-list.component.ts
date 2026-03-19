@@ -24,7 +24,6 @@ export class CadastrosListComponent implements OnInit {
   modalService = inject(MdbModalService);
   modalRef!: MdbModalRef<CadastrosFormComponent>;
 
-  // Para exibir os labels corretos
   tipoUsuarioLabels: { [key: string]: string } = {
     'DEMANDANTE': 'Demandante',
     'USUARIO': 'Usuário'
@@ -63,7 +62,7 @@ export class CadastrosListComponent implements OnInit {
 
   editar(usuario: Usuario) {
     this.modalRef = this.modalService.open(CadastrosFormComponent, {
-      modalClass: 'modal-dialog-centered',
+      modalClass: 'modal-dialog-centered modal-edit-usuario',
       data: { usuario: { ...usuario } }
     });
 
@@ -101,7 +100,7 @@ export class CadastrosListComponent implements OnInit {
 
   toggleAtivo(usuario: Usuario) {
     const acao = usuario.ativo ? 'desativar' : 'reativar';
-    const service = usuario.ativo 
+    const service = usuario.ativo
       ? this.usuarioService.desativar(usuario.id!)
       : this.usuarioService.reativar(usuario.id!);
 
