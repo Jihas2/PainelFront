@@ -2,33 +2,16 @@
 @import "@fortawesome/fontawesome-free/css/all.css";
 @import "mdb-angular-ui-kit/assets/scss/mdb.scss";
 
-.centre {
-  text-align: center;
-}
+.centre { text-align: center; }
+.direita { text-align: right; }
+.esquerda { text-align: left; }
 
-.direita {
-  text-align: right;
-}
+.card { background-color: lightgrey; }
 
-.esquerda {
-  text-align: left;
-}
+body { background-color: (#c0c0c0); }
 
-.card {
-  background-color: lightgrey;
-}
-
-body {
-  background-color: (#c0c0c0);
-}
-
-.modal-body {
-  background-color: #f5f5f5;
-}
-
-.modal-header {
-  background-color: #dddddd;
-}
+.modal-body { background-color: #f5f5f5; }
+.modal-header { background-color: #dddddd; }
 
 .custom-wide-modal {
   max-width: 50vw !important;
@@ -37,6 +20,184 @@ body {
 
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
+
+// Botão flutuante de tema
+.btn-tema-flutuante {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+  transition: all 0.2s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.5);
+  }
+}
+
+// Botão tema na navbar
+.btn-tema {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.3);
+  border-radius: 8px;
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.25);
+    border-color: rgba(255, 255, 255, 0.6);
+  }
+}
+
+// Link ativo na navbar
+.active-link {
+  font-weight: 700 !important;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 2px;
+  opacity: 1 !important;
+}
+
+// Modo escuro
+body.dark-mode {
+  background-color: #1a1a2e !important;
+  color: #e0e0e0 !important;
+
+  .navbar {
+    background: linear-gradient(135deg, #1e1e3f 0%, #16213e 100%) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .card {
+    background-color: #16213e !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e0e0e0 !important;
+  }
+
+  .table {
+    color: #e0e0e0 !important;
+
+    th {
+      background-color: #1e1e3f !important;
+      color: #a0a0c0 !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+    }
+
+    td { border-color: rgba(255, 255, 255, 0.06) !important; }
+
+    tr:hover td {
+      background-color: rgba(255, 255, 255, 0.04) !important;
+    }
+  }
+
+  .form-control,
+  .form-select,
+  .field-input,
+  .field-select {
+    background-color: #1e1e3f !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #e0e0e0 !important;
+
+    &::placeholder { color: #6060a0 !important; }
+
+    &:focus {
+      background-color: #252550 !important;
+      border-color: #4361ee !important;
+    }
+  }
+
+  .modal-content {
+    background-color: #16213e !important;
+    color: #e0e0e0 !important;
+  }
+
+  .modal-body {
+    background-color: #16213e !important;
+    color: #e0e0e0 !important;
+  }
+
+  .modal-footer {
+    background-color: #16213e !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .profile-dropdown {
+    background: #1e1e3f !important;
+    border-color: rgba(255, 255, 255, 0.1) !important;
+  }
+
+  .dropdown-item-custom {
+    color: #c0c0e0 !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.06) !important;
+      color: #fff !important;
+    }
+  }
+
+  .dropdown-divider-custom {
+    border-color: rgba(255, 255, 255, 0.08) !important;
+  }
+
+  .summary-box {
+    background-color: #1e1e3f !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+    color: #e0e0e0 !important;
+  }
+
+  h1, h2, h3, h4, h5, h6, p, span, label {
+    color: #e0e0e0 !important;
+  }
+
+  .text-muted { color: #8080b0 !important; }
+  .text-secondary { color: #8080b0 !important; }
+
+  .btn-outline-secondary {
+    border-color: rgba(255, 255, 255, 0.2) !important;
+    color: #c0c0e0 !important;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.08) !important;
+    }
+  }
+
+  .bg-success { background-color: #1a5c3a !important; }
+  .bg-danger { background-color: #5c1a1a !important; }
+  .bg-warning { background-color: #5c4a1a !important; }
+
+  // Tela de login no modo escuro
+  .login-wrapper {
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%) !important;
+  }
+
+  .login-form-side {
+    background: #16213e !important;
+  }
+
+  .form-header h3 { color: #e0e0e0 !important; }
+  .form-header p { color: #8080b0 !important; }
+
+  .field-label { color: #8080b0 !important; }
+
+  .login-footer span { color: #6060a0 !important; }
+}
 
 .modal-edit-usuario {
   .modal-content {
@@ -118,15 +279,12 @@ body {
     }
   }
 
-  // Dropdown customizado
   .custom-select-wrapper {
     position: relative;
     user-select: none;
     z-index: 200;
 
-    &.open .select-arrow {
-      transform: rotate(180deg);
-    }
+    &.open .select-arrow { transform: rotate(180deg); }
   }
 
   .custom-select-trigger {
@@ -213,22 +371,11 @@ body {
       flex-direction: column;
       gap: 2px;
 
-      .option-label {
-        font-size: 0.88rem;
-        font-weight: 600;
-        color: #2b2d42;
-      }
-
-      .option-desc {
-        font-size: 0.73rem;
-        color: #8d99ae;
-      }
+      .option-label { font-size: 0.88rem; font-weight: 600; color: #2b2d42; }
+      .option-desc { font-size: 0.73rem; color: #8d99ae; }
     }
 
-    .check-icon {
-      color: #4361ee;
-      font-size: 0.85rem;
-    }
+    .check-icon { color: #4361ee; font-size: 0.85rem; }
   }
 
   .form-check.form-switch {

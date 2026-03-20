@@ -1,4 +1,10 @@
 <div class="login-wrapper">
+
+  <!-- Botão flutuante de tema -->
+  <button class="btn-tema-flutuante" (click)="alternarTema()" [title]="isDarkMode() ? 'Modo claro' : 'Modo escuro'">
+    <i [class]="isDarkMode() ? 'fas fa-sun' : 'fas fa-moon'"></i>
+  </button>
+
   <div class="login-container">
 
     <div class="login-side">

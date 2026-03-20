@@ -30,7 +30,19 @@
             [class.active-link]="isActive('cadastros')">Cadastros</a>
         </li>
       </ul>
-      <ul class="navbar-nav d-flex align-items-center">
+      <ul class="navbar-nav d-flex align-items-center gap-2">
+
+        <!-- Botão alternar tema -->
+        <li class="nav-item">
+          <button
+            class="btn-tema"
+            (click)="alternarTema()"
+            [title]="isDarkMode() ? 'Mudar para modo claro' : 'Mudar para modo escuro'"
+          >
+            <i [class]="isDarkMode() ? 'fas fa-sun' : 'fas fa-moon'"></i>
+          </button>
+        </li>
+
         <li class="nav-item position-relative">
           <div
             class="user-avatar"
@@ -62,6 +74,13 @@
                   </span>
                 </div>
               </div>
+            </div>
+
+            <hr class="dropdown-divider-custom" />
+
+            <div class="dropdown-item-custom" (click)="alternarTema()">
+              <i [class]="isDarkMode() ? 'fas fa-sun me-2' : 'fas fa-moon me-2'"></i>
+              {{ isDarkMode() ? 'Modo Claro' : 'Modo Escuro' }}
             </div>
 
             <hr class="dropdown-divider-custom" />

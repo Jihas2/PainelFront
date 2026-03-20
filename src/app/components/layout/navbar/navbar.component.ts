@@ -3,6 +3,7 @@ import { MdbCollapseModule } from 'mdb-angular-ui-kit/collapse';
 import { AuthService } from '../../../auth/auth.service';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { TemaService } from '../../../services/tema.service';
 
 @Component({
   selector: 'app-navbar',
@@ -14,11 +15,20 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   authService = inject(AuthService);
   router = inject(Router);
+  temaService = inject(TemaService);
 
   dropdownAberto = false;
 
   isActive(rota: string): boolean {
     return this.router.url.includes(rota);
+  }
+
+  isDarkMode(): boolean {
+    return this.temaService.isDarkMode();
+  }
+
+  alternarTema(): void {
+    this.temaService.alternarTema();
   }
 
   isDemandante(): boolean {
@@ -47,11 +57,8 @@ export class NavbarComponent {
   getIniciais(): string {
     const usuario = this.getUsuario();
     if (!usuario || !usuario.nome) return 'U';
-
     const nomes = usuario.nome.trim().split(' ');
-    if (nomes.length === 1) {
-      return nomes[0].charAt(0).toUpperCase();
-    }
+    if (nomes.length === 1) return nomes[0].charAt(0).toUpperCase();
     return (nomes[0].charAt(0) + nomes[nomes.length - 1].charAt(0)).toUpperCase();
   }
 

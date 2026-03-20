@@ -24,7 +24,6 @@ $radius: 12px;
   box-shadow: 0 25px 60px rgba(67, 97, 238, 0.15);
 }
 
-// Lado esquerdo
 .login-side {
   width: 45%;
   background: linear-gradient(160deg, $primary 0%, $primary-dark 100%);
@@ -110,7 +109,6 @@ $radius: 12px;
   span { color: rgba(255, 255, 255, 0.8); font-size: 0.88rem; font-weight: 500; }
 }
 
-// Lado direito
 .login-form-side {
   width: 55%;
   background: #fff;
@@ -183,7 +181,6 @@ $radius: 12px;
 
 .password-wrapper {
   position: relative;
-
   .field-input { padding-right: 48px; }
 }
 
@@ -230,22 +227,36 @@ $radius: 12px;
   margin-top: 32px;
   text-align: center;
 
-  span {
-    font-size: 0.78rem;
-    color: $text-muted;
+  span { font-size: 0.78rem; color: $text-muted; }
+}
+
+.btn-tema-flutuante {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(67, 97, 238, 0.4);
+  transition: all 0.2s ease;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 8px 20px rgba(67, 97, 238, 0.5);
   }
 }
 
 @media (max-width: 768px) {
   .login-container { flex-direction: column; }
-
-  .login-side {
-    width: 100%;
-    padding: 36px 28px;
-  }
-
-  .login-form-side {
-    width: 100%;
-    padding: 36px 28px;
-  }
+  .login-side { width: 100%; padding: 36px 28px; }
+  .login-form-side { width: 100%; padding: 36px 28px; }
 }

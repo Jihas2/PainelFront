@@ -1,15 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
 import { UsuarioService } from '../../../services/usuario.service';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../auth/auth.service';
 import { Login } from '../../../auth/login';
+import { TemaService } from '../../../services/tema.service';
 
 @Component({
   selector: 'app-login',
@@ -32,9 +30,18 @@ export class LoginComponent {
   router = inject(Router);
   usuarioService = inject(UsuarioService);
   authService = inject(AuthService);
+  temaService = inject(TemaService);
 
   constructor() {
     this.authService.removerToken();
+  }
+
+  isDarkMode(): boolean {
+    return this.temaService.isDarkMode();
+  }
+
+  alternarTema(): void {
+    this.temaService.alternarTema();
   }
 
   logar() {
