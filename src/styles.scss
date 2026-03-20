@@ -100,7 +100,13 @@ body.dark-mode {
       border-color: rgba(255, 255, 255, 0.08) !important;
     }
 
-    td { border-color: rgba(255, 255, 255, 0.06) !important; }
+    td {
+      background-color: transparent !important;
+      color: #e0e0e0 !important;
+      border-color: rgba(255, 255, 255, 0.06) !important;
+    }
+
+    tbody tr { background-color: transparent !important; }
 
     tr:hover td {
       background-color: rgba(255, 255, 255, 0.04) !important;
@@ -121,6 +127,16 @@ body.dark-mode {
       background-color: #252550 !important;
       border-color: #4361ee !important;
     }
+  }
+
+  // ── Modais genéricos ────────────────────────────────────
+  .modal-header {
+    background-color: #1e1e3f !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    .modal-title { color: #e0e0e0 !important; }
+    h1, h2, h3, h4, h5 { color: #e0e0e0 !important; }
+    .btn-close { filter: brightness(0) invert(1) !important; opacity: 0.7; }
   }
 
   .modal-content {
@@ -197,6 +213,294 @@ body.dark-mode {
   .field-label { color: #8080b0 !important; }
 
   .login-footer span { color: #6060a0 !important; }
+
+  // ── Lista do Dashboard ──────────────────────────────────
+  .list-group-item {
+    background-color: #16213e !important;
+    color: #e0e0e0 !important;
+    border-color: rgba(255, 255, 255, 0.08) !important;
+
+    span { color: #c0c0e0 !important; }
+    strong { color: #ffffff !important; }
+    small.text-muted { color: #8080b0 !important; }
+  }
+
+  // ── Toast SweetAlert2 ────────────────────────────────────
+  .swal2-popup.swal2-toast {
+    background: #1e1e3f !important;
+    border: 1px solid rgba(255, 255, 255, 0.1) !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+
+    .swal2-title {
+      color: #e0e0e0 !important;
+      font-size: 0.95rem !important;
+    }
+
+    .swal2-icon.swal2-success {
+      border-color: #2ecc71 !important;
+      color: #2ecc71 !important;
+
+      .swal2-success-ring { border-color: rgba(46, 204, 113, 0.3) !important; }
+      [class^='swal2-success-line'] { background-color: #2ecc71 !important; }
+    }
+
+    .swal2-timer-progress-bar {
+      background: rgba(67, 97, 238, 0.6) !important;
+    }
+  }
+
+  // ── SweetAlert2 Confirmações (excluir, desativar, etc) ──
+  .swal2-popup:not(.swal2-toast) {
+    background: #16213e !important;
+    border: 1px solid rgba(255, 255, 255, 0.08) !important;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5) !important;
+
+    .swal2-title { color: #e0e0e0 !important; }
+    .swal2-html-container { color: #c0c0e0 !important; }
+
+    .swal2-icon.swal2-warning {
+      border-color: #f39c12 !important;
+      color: #f39c12 !important;
+    }
+
+    .swal2-icon.swal2-question {
+      border-color: #4361ee !important;
+      color: #4361ee !important;
+    }
+
+    .swal2-icon.swal2-error {
+      border-color: #e74c3c !important;
+      color: #e74c3c !important;
+
+      [class^='swal2-x-mark-line'] { background-color: #e74c3c !important; }
+    }
+
+    .swal2-icon.swal2-success {
+      border-color: #2ecc71 !important;
+      color: #2ecc71 !important;
+
+      .swal2-success-ring { border-color: rgba(46, 204, 113, 0.3) !important; }
+      [class^='swal2-success-line'] { background-color: #2ecc71 !important; }
+    }
+
+    .swal2-actions {
+      .swal2-confirm {
+        background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%) !important;
+        border: none !important;
+        color: #fff !important;
+      }
+
+      .swal2-deny {
+        background: #5c1a1a !important;
+        color: #fff !important;
+      }
+
+      .swal2-cancel {
+        background: #2a2a4a !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        color: #c0c0e0 !important;
+      }
+    }
+  }
+
+  // ── Tela de Itens ────────────────────────────────────────
+  .alert-info {
+    background-color: #1e1e3f !important;
+    border-color: rgba(67, 97, 238, 0.3) !important;
+    color: #e0e0e0 !important;
+
+    strong { color: #ffffff !important; }
+    span { color: #c0c0e0 !important; }
+    small.text-muted { color: #8080b0 !important; }
+  }
+
+  .table-striped > tbody > tr:nth-of-type(odd) > * {
+    background-color: rgba(255, 255, 255, 0.03) !important;
+    color: #e0e0e0 !important;
+  }
+
+  .table-striped > tbody > tr:nth-of-type(even) > * {
+    background-color: transparent !important;
+    color: #e0e0e0 !important;
+  }
+
+  // ── Tela de Cadastrar Usuário ─────────────────────────────
+  .cadastro-wrapper {
+    background: linear-gradient(135deg, #0f0f1e 0%, #1a1a2e 100%) !important;
+  }
+
+  .cadastro-form-side {
+    background: #16213e !important;
+
+    .form-header {
+      .form-icon {
+        background: rgba(67, 97, 238, 0.15) !important;
+        i { color: #4361ee !important; }
+      }
+
+      h3 { color: #e0e0e0 !important; }
+      p { color: #8080b0 !important; }
+    }
+
+    .field-label {
+      color: #8080b0 !important;
+      i { color: #4361ee !important; }
+    }
+
+    .field-input {
+      background: #1e1e3f !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #e0e0e0 !important;
+
+      &::placeholder { color: #6060a0 !important; }
+
+      &:focus {
+        background: #252550 !important;
+        border-color: #4361ee !important;
+        box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.15) !important;
+      }
+    }
+
+    .custom-select-trigger {
+      background: #1e1e3f !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+
+      &:hover {
+        background: #252550 !important;
+        border-color: #4361ee !important;
+      }
+
+      .select-value {
+        color: #e0e0e0 !important;
+        i { color: #4361ee !important; }
+      }
+
+      .select-arrow { color: #8080b0 !important; }
+    }
+
+    .custom-select-options {
+      background: #1e1e3f !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .custom-option {
+      border-color: rgba(255, 255, 255, 0.06) !important;
+
+      &:hover { background: rgba(67, 97, 238, 0.15) !important; }
+      &.selected { background: rgba(67, 97, 238, 0.15) !important; }
+
+      > i:first-child {
+        background: rgba(67, 97, 238, 0.15) !important;
+        color: #4361ee !important;
+      }
+
+      .option-info {
+        .option-label { color: #e0e0e0 !important; }
+        .option-desc { color: #8080b0 !important; }
+      }
+    }
+
+    .btn-voltar {
+      background: transparent !important;
+      border-color: rgba(255, 255, 255, 0.15) !important;
+      color: #8080b0 !important;
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.06) !important;
+        color: #e0e0e0 !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+      }
+    }
+  }
+
+  // ── Modal Editar Usuário (dark mode) ─────────────────────
+  .modal-edit-usuario {
+    .modal-body {
+      background: #16213e !important;
+    }
+
+    .form-label {
+      color: #8080b0 !important;
+      i { color: #4361ee !important; }
+    }
+
+    .form-control,
+    .form-select {
+      background-color: #1e1e3f !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      color: #e0e0e0 !important;
+
+      &::placeholder { color: #6060a0 !important; }
+
+      &:focus {
+        background-color: #252550 !important;
+        border-color: #4361ee !important;
+      }
+    }
+
+    .custom-select-trigger {
+      background: #1e1e3f !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+
+      &:hover {
+        background: #252550 !important;
+        border-color: #4361ee !important;
+      }
+
+      .select-value {
+        color: #e0e0e0 !important;
+        i { color: #4361ee !important; }
+      }
+
+      .select-arrow { color: #8080b0 !important; }
+    }
+
+    .custom-select-options {
+      background: #1e1e3f !important;
+      border-color: rgba(255, 255, 255, 0.12) !important;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5) !important;
+    }
+
+    .custom-option {
+      border-color: rgba(255, 255, 255, 0.06) !important;
+
+      &:hover { background: rgba(67, 97, 238, 0.15) !important; }
+      &.selected { background: rgba(67, 97, 238, 0.15) !important; }
+
+      > i:first-child {
+        background: rgba(67, 97, 238, 0.15) !important;
+        color: #4361ee !important;
+      }
+
+      .option-info {
+        .option-label { color: #e0e0e0 !important; }
+        .option-desc { color: #8080b0 !important; }
+      }
+    }
+
+    .form-check.form-switch {
+      background: rgba(67, 97, 238, 0.1) !important;
+      border-color: rgba(67, 97, 238, 0.2) !important;
+
+      .form-check-label { color: #4361ee !important; }
+    }
+
+    .modal-footer {
+      background: #16213e !important;
+      border-color: rgba(255, 255, 255, 0.08) !important;
+
+      .btn-outline-secondary {
+        border-color: rgba(255, 255, 255, 0.15) !important;
+        color: #c0c0e0 !important;
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.06) !important;
+          color: #fff !important;
+        }
+      }
+    }
+  }
 }
 
 .modal-edit-usuario {

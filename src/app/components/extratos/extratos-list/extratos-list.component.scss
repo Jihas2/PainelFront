@@ -46,9 +46,7 @@
   align-items: center;
   gap: 8px;
 
-  i {
-    font-size: 14px;
-  }
+  i { font-size: 14px; }
 
   &:hover {
     color: #0d6efd;
@@ -89,7 +87,7 @@
   border: 2px solid #e9ecef;
   padding: 8px 12px;
   font-weight: 500;
-  
+
   &:focus {
     border-color: #0d6efd;
     box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
@@ -103,10 +101,8 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  
-  i {
-    font-size: 14px;
-  }
+
+  i { font-size: 14px; }
 }
 
 // Cards de Resumo
@@ -174,58 +170,40 @@
   opacity: 0.75;
 }
 
-// Card Créditos
 .card-creditos {
   background: linear-gradient(135deg, #10b981 0%, #059669 100%);
   color: white;
   border-color: #10b981;
 
-  .card-resumo-icon {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
+  .card-resumo-icon { background: rgba(255, 255, 255, 0.2); color: white; }
 }
 
-// Card Débitos
 .card-debitos {
   background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   color: white;
   border-color: #ef4444;
 
-  .card-resumo-icon {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
+  .card-resumo-icon { background: rgba(255, 255, 255, 0.2); color: white; }
 }
 
-// Card Saldo Positivo
 .card-saldo-positivo {
   background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
   color: white;
   border-color: #3b82f6;
 
-  .card-resumo-icon {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
+  .card-resumo-icon { background: rgba(255, 255, 255, 0.2); color: white; }
 }
 
-// Card Saldo Negativo
 .card-saldo-negativo {
   background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
   color: white;
   border-color: #f59e0b;
 
-  .card-resumo-icon {
-    background: rgba(255, 255, 255, 0.2);
-    color: white;
-  }
+  .card-resumo-icon { background: rgba(255, 255, 255, 0.2); color: white; }
 }
 
 // Seção de Extratos
-.extratos-section {
-  margin-top: 30px;
-}
+.extratos-section { margin-top: 30px; }
 
 .section-title {
   color: #2c3e50;
@@ -236,9 +214,7 @@
   gap: 10px;
   font-size: 18px;
 
-  i {
-    color: #3b82f6;
-  }
+  i { color: #3b82f6; }
 }
 
 // Tabela de Extratos
@@ -261,10 +237,7 @@
       padding: 16px 12px;
       white-space: nowrap;
 
-      i {
-        margin-right: 6px;
-        font-size: 11px;
-      }
+      i { margin-right: 6px; font-size: 11px; }
     }
   }
 
@@ -272,13 +245,8 @@
     tr {
       transition: background-color 0.2s;
 
-      &:hover {
-        background-color: #f8f9fa;
-      }
-
-      &.saldo-negativo {
-        background-color: #fff3cd;
-      }
+      &:hover { background-color: #f8f9fa; }
+      &.saldo-negativo { background-color: #fff3cd; }
 
       td {
         padding: 16px 12px;
@@ -289,7 +257,6 @@
   }
 }
 
-// Células da Tabela
 .data-cell {
   font-weight: 600;
   color: #2c3e50;
@@ -304,9 +271,7 @@
   margin-top: 2px;
 }
 
-.valor-cell {
-  white-space: nowrap;
-}
+.valor-cell { white-space: nowrap; }
 
 .valor-principal {
   font-weight: 600;
@@ -315,26 +280,15 @@
 
   &.positivo {
     color: #10b981;
-
-    i {
-      font-size: 12px;
-      margin-right: 4px;
-    }
+    i { font-size: 12px; margin-right: 4px; }
   }
 
   &.negativo {
     color: #ef4444;
-
-    i {
-      font-size: 12px;
-      margin-right: 4px;
-    }
+    i { font-size: 12px; margin-right: 4px; }
   }
 
-  &.destaque {
-    font-size: 15px;
-    font-weight: 700;
-  }
+  &.destaque { font-size: 15px; font-weight: 700; }
 }
 
 .valor-secondary {
@@ -343,50 +297,115 @@
   margin-top: 2px;
 }
 
-.credito-cell .valor-principal {
-  color: #10b981;
-}
+.credito-cell .valor-principal { color: #10b981; }
+.debito-cell .valor-principal { color: #ef4444; }
 
-.debito-cell .valor-principal {
-  color: #ef4444;
-}
+.badge { font-size: 11px; padding: 4px 8px; font-weight: 600; }
 
-// Badge
-.badge {
-  font-size: 11px;
-  padding: 4px 8px;
-  font-weight: 600;
-}
-
-// Empty State
 .empty-state {
   text-align: center;
   padding: 60px 20px;
   color: #6c757d;
 
-  i {
-    font-size: 64px;
-    color: #dee2e6;
-    margin-bottom: 20px;
+  i { font-size: 64px; color: #dee2e6; margin-bottom: 20px; }
+  h5 { color: #495057; font-weight: 600; margin-bottom: 8px; }
+  p { color: #6c757d; margin: 0; }
+}
+
+// ── Dark Mode ─────────────────────────────────────────────
+:host-context(body.dark-mode) {
+
+  .title-page { color: #e0e0e0 !important; }
+
+  .view-tabs {
+    border-bottom-color: rgba(255, 255, 255, 0.08) !important;
   }
 
-  h5 {
-    color: #495057;
-    font-weight: 600;
-    margin-bottom: 8px;
+  .tab-btn {
+    color: #8080b0 !important;
+
+    &:hover {
+      color: #a0a0ee !important;
+      background: rgba(67, 97, 238, 0.08) !important;
+    }
+
+    &.active {
+      color: #6b8cff !important;
+      border-bottom-color: #6b8cff !important;
+      background: rgba(67, 97, 238, 0.08) !important;
+    }
   }
 
-  p {
-    color: #6c757d;
-    margin: 0;
+  .filter-label { color: #8080b0 !important; }
+
+  .filter-input {
+    background-color: #1e1e3f !important;
+    border-color: rgba(255, 255, 255, 0.12) !important;
+    color: #e0e0e0 !important;
+
+    &:focus {
+      border-color: #4361ee !important;
+      box-shadow: 0 0 0 0.2rem rgba(67, 97, 238, 0.2) !important;
+    }
+  }
+
+  .section-title {
+    color: #e0e0e0 !important;
+    i { color: #6b8cff !important; }
+  }
+
+  // Tabela
+  .table-extratos {
+    background: transparent !important;
+
+    thead {
+      background: linear-gradient(135deg, #1e1e3f 0%, #16213e 100%) !important;
+
+      th {
+        color: #a0a0c0 !important;
+        border-color: rgba(255, 255, 255, 0.06) !important;
+      }
+    }
+
+    tbody {
+      tr {
+        &:hover { background-color: rgba(255, 255, 255, 0.03) !important; }
+
+        &.saldo-negativo { background-color: rgba(245, 158, 11, 0.08) !important; }
+
+        td {
+          border-color: rgba(255, 255, 255, 0.06) !important;
+          background-color: transparent !important;
+        }
+      }
+    }
+  }
+
+  .data-cell { color: #e0e0e0 !important; }
+  .dia-semana { color: #8080b0 !important; }
+
+  .valor-principal {
+    color: #e0e0e0 !important;
+
+    &.positivo { color: #2ecc71 !important; }
+    &.negativo { color: #e74c3c !important; }
+  }
+
+  .credito-cell .valor-principal { color: #2ecc71 !important; }
+  .debito-cell .valor-principal { color: #e74c3c !important; }
+
+  .valor-secondary { color: #8080b0 !important; }
+
+  .empty-state {
+    i { color: #2a2a4a !important; }
+    h5 { color: #a0a0c0 !important; }
+    p { color: #8080b0 !important; }
   }
 }
 
 // Responsivo
 @media (max-width: 768px) {
-  .title-page {
-    font-size: 22px;
-  }
+  .title-page { font-size: 22px; }
 
   .view-tabs {
     width: 100%;
@@ -402,43 +421,20 @@
   .filters-container {
     width: 100%;
 
-    .filter-group {
-      flex: 1;
-      min-width: 100px;
-    }
-
-    .btn-buscar {
-      width: 100%;
-      justify-content: center;
-    }
+    .filter-group { flex: 1; min-width: 100px; }
+    .btn-buscar { width: 100%; justify-content: center; }
   }
 
-  .resumo-cards {
-    grid-template-columns: 1fr;
-  }
-
-  .card-resumo-valor {
-    font-size: 22px;
-  }
+  .resumo-cards { grid-template-columns: 1fr; }
+  .card-resumo-valor { font-size: 22px; }
 
   .table-extratos {
     font-size: 12px;
 
-    thead th {
-      padding: 12px 8px;
-      font-size: 11px;
-    }
-
-    tbody td {
-      padding: 12px 8px;
-    }
+    thead th { padding: 12px 8px; font-size: 11px; }
+    tbody td { padding: 12px 8px; }
   }
 
-  .valor-principal {
-    font-size: 13px;
-  }
-
-  .valor-secondary {
-    font-size: 11px;
-  }
+  .valor-principal { font-size: 13px; }
+  .valor-secondary { font-size: 11px; }
 }
