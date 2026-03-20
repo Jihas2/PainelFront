@@ -1,4 +1,4 @@
-import { Component, inject, Input, OnInit } from '@angular/core';
+import { Component, inject, Input, OnInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MdbFormsModule } from 'mdb-angular-ui-kit/forms';
@@ -20,15 +20,34 @@ export class CadastrosFormComponent implements OnInit {
 
   novaSenha: string = '';
   alterarSenha: boolean = false;
+  dropdownOpen: boolean = false;
 
   usuarioService = inject(UsuarioService);
 
   tipoUsuarioList = [
-    { value: TipoUsuario.DEMANDANTE, label: 'Demandante' },
-    { value: TipoUsuario.USUARIO, label: 'Usuário' },
+    {
+      value: TipoUsuario.DEMANDANTE,
+      label: 'Demandante',
+      desc: 'Acesso completo ao sistema',
+      icon: 'fas fa-user-shield'
+    },
+    {
+      value: TipoUsuario.USUARIO,
+      label: 'Usuário',
+      desc: 'Acesso padrão ao sistema',
+      icon: 'fas fa-user'
+    },
   ];
 
   constructor(public modalRef: MdbModalRef<CadastrosFormComponent>) {}
+
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    if (!target.closest('.custom-select-wrapper')) {
+      this.dropdownOpen = false;
+    }
+  }
 
   ngOnInit() {
     if (!this.usuario) {
@@ -38,22 +57,38 @@ export class CadastrosFormComponent implements OnInit {
     }
   }
 
+  toggleDropdown() {
+    this.dropdownOpen = !this.dropdownOpen;
+  }
+
+  selectTipo(tipo: any) {
+    this.usuario.tipoUsuario = tipo.value;
+    this.dropdownOpen = false;
+  }
+
+  getSelectedLabel(): string {
+    const found = this.tipoUsuarioList.find(t => t.value === this.usuario.tipoUsuario);
+    return found ? found.label : 'Selecione um tipo';
+  }
+
+  getSelectedIcon(): string {
+    const found = this.tipoUsuarioList.find(t => t.value === this.usuario.tipoUsuario);
+    return found ? found.icon : 'fas fa-user';
+  }
+
   salvar() {
     if (!this.usuario.nome || this.usuario.nome.trim() === '') {
       Swal.fire('Atenção', 'Nome é obrigatório', 'warning');
       return;
     }
-
     if (!this.usuario.email || this.usuario.email.trim() === '') {
       Swal.fire('Atenção', 'Email é obrigatório', 'warning');
       return;
     }
-
     if (!this.usuario.tipoUsuario) {
       Swal.fire('Atenção', 'Tipo de usuário é obrigatório', 'warning');
       return;
     }
-
     if (this.alterarSenha) {
       if (!this.novaSenha || this.novaSenha.length < 5) {
         Swal.fire('Atenção', 'A nova senha deve ter no mínimo 5 caracteres', 'warning');

@@ -52,25 +52,36 @@
         </small>
       </div>
 
+      <!-- Tipo de Usuário - Dropdown customizado -->
       <div class="mb-3">
         <label class="form-label fw-semibold text-secondary small">
           <i class="fas fa-id-badge me-1"></i> Tipo de Usuário
         </label>
-        <select
-          id="tipoUsuario"
-          class="form-select form-select-lg"
-          name="tipoUsuario"
-          [(ngModel)]="usuario.tipoUsuario"
-          required
-          #tipoInput="ngModel"
-        >
-          <option *ngFor="let tipo of tipoUsuarioList" [ngValue]="tipo.value">
-            {{ tipo.label }}
-          </option>
-        </select>
-        <small class="text-danger" *ngIf="tipoInput.invalid && tipoInput.touched">
-          Tipo de usuário é obrigatório
-        </small>
+        <div class="custom-select-wrapper" [class.open]="dropdownOpen">
+          <div class="custom-select-trigger" (click)="toggleDropdown()">
+            <span class="select-value">
+              <i [class]="getSelectedIcon()"></i>
+              {{ getSelectedLabel() }}
+            </span>
+            <i class="fas fa-chevron-down select-arrow"></i>
+          </div>
+          <div class="custom-select-options" *ngIf="dropdownOpen">
+            <div
+              class="custom-option"
+              *ngFor="let tipo of tipoUsuarioList"
+              [class.selected]="usuario.tipoUsuario === tipo.value"
+              (click)="selectTipo(tipo)"
+            >
+              <i [class]="tipo.icon"></i>
+              <div class="option-info">
+                <span class="option-label">{{ tipo.label }}</span>
+                <span class="option-desc">{{ tipo.desc }}</span>
+              </div>
+              <i class="fas fa-check check-icon" *ngIf="usuario.tipoUsuario === tipo.value"></i>
+            </div>
+          </div>
+        </div>
+        <input type="hidden" name="tipoUsuario" [(ngModel)]="usuario.tipoUsuario" required />
       </div>
 
       <div class="mb-3">

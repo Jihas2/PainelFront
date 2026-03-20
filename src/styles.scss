@@ -38,13 +38,10 @@ body {
 /* Importing Bootstrap SCSS file. */
 @import "bootstrap/scss/bootstrap";
 
-// =============================================
-// Modal Editar Usuário
-// =============================================
 .modal-edit-usuario {
   .modal-content {
     border-radius: 16px !important;
-    overflow: hidden !important;
+    overflow: visible !important;
     border: none !important;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18) !important;
   }
@@ -54,6 +51,7 @@ body {
     border-bottom: none !important;
     padding: 18px 24px !important;
     position: relative;
+    border-radius: 16px 16px 0 0 !important;
 
     &::after {
       content: '';
@@ -87,6 +85,7 @@ body {
   .modal-body {
     padding: 24px 28px 8px !important;
     background: #fff !important;
+    overflow: visible !important;
   }
 
   .form-label {
@@ -116,6 +115,119 @@ body {
       border-color: #4361ee !important;
       background-color: #fff !important;
       box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.08) !important;
+    }
+  }
+
+  // Dropdown customizado
+  .custom-select-wrapper {
+    position: relative;
+    user-select: none;
+    z-index: 200;
+
+    &.open .select-arrow {
+      transform: rotate(180deg);
+    }
+  }
+
+  .custom-select-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    border: 1.5px solid #e9ecef;
+    border-radius: 8px;
+    background: #fafbfc;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    &:hover {
+      border-color: #4361ee;
+      background: #fff;
+    }
+
+    .select-value {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.95rem;
+      color: #2b2d42;
+
+      i { color: #4361ee; }
+    }
+
+    .select-arrow {
+      color: #8d99ae;
+      font-size: 0.8rem;
+      transition: transform 0.2s ease;
+    }
+  }
+
+  .custom-select-options {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+    right: 0;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.12);
+    border: 1.5px solid #e9ecef;
+    overflow: hidden;
+    z-index: 300;
+    animation: fadeInModal 0.15s ease;
+  }
+
+  @keyframes fadeInModal {
+    from { opacity: 0; transform: translateY(-6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .custom-option {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    border-bottom: 1px solid #f5f5f5;
+
+    &:last-child { border-bottom: none; }
+    &:hover { background: rgba(67, 97, 238, 0.06); }
+    &.selected { background: rgba(67, 97, 238, 0.06); }
+
+    > i:first-child {
+      width: 34px;
+      height: 34px;
+      background: rgba(67, 97, 238, 0.08);
+      border-radius: 9px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #4361ee;
+      font-size: 0.85rem;
+      flex-shrink: 0;
+    }
+
+    .option-info {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+
+      .option-label {
+        font-size: 0.88rem;
+        font-weight: 600;
+        color: #2b2d42;
+      }
+
+      .option-desc {
+        font-size: 0.73rem;
+        color: #8d99ae;
+      }
+    }
+
+    .check-icon {
+      color: #4361ee;
+      font-size: 0.85rem;
     }
   }
 
@@ -153,6 +265,7 @@ body {
     border-top: 1.5px solid #e9ecef !important;
     padding: 14px 28px 22px !important;
     background: #fff !important;
+    border-radius: 0 0 16px 16px !important;
     gap: 10px;
 
     .btn {
@@ -189,4 +302,4 @@ body {
       }
     }
   }
-} 
+}
