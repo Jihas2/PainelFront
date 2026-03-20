@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Taxacambio } from '../models/taxacambio';
@@ -13,10 +13,10 @@ export class CambiohistoricoService {
 
   constructor() {}
 
-  atualizarTaxaDia(): Observable<Taxacambio>{
-    return this.http.get<Taxacambio>(this.API + '/taxa-hoje');
+  atualizarTaxaDia(): Observable<any> {
+    return this.http.get<any>(this.API + '/atualizar');
   }
-  
+
   buscarUltimaTaxa(): Observable<Taxacambio> {
     return this.http.get<Taxacambio>(this.API + '/taxa-hoje');
   }
