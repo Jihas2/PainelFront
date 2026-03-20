@@ -1,10 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Output } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import {
-  FormBuilder,
-  FormGroup,
   FormsModule,
-  Validators,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -29,6 +26,8 @@ import { Login } from '../../../auth/login';
 })
 export class LoginComponent {
   login: Login = new Login();
+  mostrarSenha: boolean = false;
+  anoAtual: number = new Date().getFullYear();
 
   router = inject(Router);
   usuarioService = inject(UsuarioService);
@@ -39,20 +38,18 @@ export class LoginComponent {
   }
 
   logar() {
-
     this.authService.logar(this.login).subscribe({
       next: (response) => {
         if (response) {
           this.authService.addToken(response.token);
           this.gerarToast().fire({ icon: 'success', title: 'Seja bem-vindo!' });
-          //console.log(token);
           this.router.navigate(['/principal/dashboard']);
         }
       },
       error: (err) => {
-            Swal.fire('Erro no Login', 'Email ou Senha Incorrectos!', 'error');
-        }
-      });
+        Swal.fire('Erro no Login', 'Email ou Senha Incorrectos!', 'error');
+      }
+    });
   }
 
   gerarToast() {

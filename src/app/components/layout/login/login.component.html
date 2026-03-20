@@ -1,59 +1,91 @@
-<div
-  class="container d-flex justify-content-center align-items-center"
-  style="height: 100vh"
->
-  <div class="row w-100">
-    <div class="col-lg-4"></div>
+<div class="login-wrapper">
+  <div class="login-container">
 
-    <div class="col-lg-4">
-      <div class="card centre">
-        <div class="card-body">
-          <h2 class="card-title">Login</h2>
-          <form>
-            <!-- Email input -->
-            <mdb-form-control class="mb-4">
-              <input
-                mdbInput
-                type="email"
-                id="form2Example1"
-                class="form-control"
-                [(ngModel)]="login.email"
-                name="email"
-              />
-              <label mdbLabel class="form-label" for="form2Example1"
-                >Email do Usuário</label
-              >
-            </mdb-form-control>
-
-            <!-- Password input -->
-            <mdb-form-control class="mb-4">
-              <input
-                mdbInput
-                type="password"
-                id="form2Example2"
-                class="form-control"
-                [(ngModel)]="login.senha"
-                name="senha"
-                (keyup.enter)="logar()"
-              />
-              <label mdbLabel class="form-label" for="form2Example2"
-                >Senha</label
-              >
-            </mdb-form-control>
-
-            <!-- Submit button -->
-            <button
-              mdbRipple
-              type="button"
-              class="btn btn-primary btn-block mb-4"
-              (click)="logar()"
-            >
-              Entrar
-            </button>
-          </form>
+    <div class="login-side">
+      <div class="side-content">
+        <div class="side-logo">
+          <i class="fas fa-chart-line"></i>
+        </div>
+        <h2>TechPro</h2>
+        <p>Gerencie suas operações financeiras com segurança e eficiência.</p>
+        <div class="side-features">
+          <div class="feature-item">
+            <i class="fas fa-bolt"></i>
+            <span>Sistema rápido e eficiente</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-clock"></i>
+            <span>Disponível 24 horas por dia</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-chart-bar"></i>
+            <span>Dashboard financeiro completo</span>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-lg-4"></div>
+
+    <div class="login-form-side">
+      <div class="form-header">
+        <div class="form-icon">
+          <i class="fas fa-user-circle"></i>
+        </div>
+        <h3>Bem-vindo de volta</h3>
+        <p>Entre com suas credenciais para acessar o sistema</p>
+      </div>
+
+      <form class="form-body">
+
+        <div class="field-group">
+          <label class="field-label">
+            <i class="fas fa-envelope"></i> Email
+          </label>
+          <input
+            type="email"
+            class="field-input"
+            placeholder="seu@email.com"
+            [(ngModel)]="login.email"
+            name="email"
+          />
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            <i class="fas fa-lock"></i> Senha
+          </label>
+          <div class="password-wrapper">
+            <input
+              [type]="mostrarSenha ? 'text' : 'password'"
+              class="field-input"
+              placeholder="Digite sua senha"
+              [(ngModel)]="login.senha"
+              name="senha"
+              (keyup.enter)="logar()"
+            />
+            <button
+              type="button"
+              class="toggle-senha"
+              (click)="mostrarSenha = !mostrarSenha"
+            >
+              <i [class]="mostrarSenha ? 'fas fa-eye-slash' : 'fas fa-eye'"></i>
+            </button>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="btn-entrar"
+          (click)="logar()"
+        >
+          <i class="fas fa-sign-in-alt me-2"></i> Entrar
+        </button>
+
+      </form>
+
+      <div class="login-footer">
+        <span>TechPro © {{ anoAtual }}</span>
+      </div>
+
+    </div>
   </div>
 </div>
