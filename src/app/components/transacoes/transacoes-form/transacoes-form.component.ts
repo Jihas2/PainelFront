@@ -42,27 +42,87 @@ export class TransacoesFormComponent {
   quantidadeItens: number = 0;
   quantidadeItensOriginal: number = 0;
 
+  // ── Estados dos dropdowns customizados ──────────────────
+  dropdownMoedaOpen = false;
+  dropdownTipoOpen = false;
+  dropdownStatusOpen = false;
+  dropdownPagamentoOpen = false;
+
+  // ── Listas com ícones e descrições ──────────────────────
   tipoTransacoes = [
-    { value: TipoTransacao.CREDITO, label: 'Crédito' },
-    { value: TipoTransacao.DEBITO, label: 'Débito' },
+    {
+      value: TipoTransacao.CREDITO,
+      label: 'Crédito',
+      icon: 'fas fa-arrow-up',
+      desc: 'Entrada de valor na conta',
+    },
+    {
+      value: TipoTransacao.DEBITO,
+      label: 'Débito',
+      icon: 'fas fa-arrow-down',
+      desc: 'Saída de valor da conta',
+    },
   ];
 
   statusPagamentos = [
-    { value: StatusPagamento.PENDENTE, label: 'Pendente' },
-    { value: StatusPagamento.PAGO, label: 'Pago' },
-    { value: StatusPagamento.CANCELADO, label: 'Cancelado' },
-    { value: StatusPagamento.VENCIDO, label: 'Vencido' },
+    {
+      value: StatusPagamento.PENDENTE,
+      label: 'Pendente',
+      icon: 'fas fa-clock',
+      desc: 'Aguardando pagamento',
+    },
+    {
+      value: StatusPagamento.PAGO,
+      label: 'Pago',
+      icon: 'fas fa-check-circle',
+      desc: 'Pagamento confirmado',
+    },
+    {
+      value: StatusPagamento.CANCELADO,
+      label: 'Cancelado',
+      icon: 'fas fa-times-circle',
+      desc: 'Transação cancelada',
+    },
+    {
+      value: StatusPagamento.VENCIDO,
+      label: 'Vencido',
+      icon: 'fas fa-exclamation-circle',
+      desc: 'Prazo de pagamento expirado',
+    },
   ];
 
   tipoPagamentos = [
-    { value: TipoPagamento.A_VISTA, label: 'À Vista' },
-    { value: TipoPagamento.A_PRAZO, label: 'À Prazo' },
-    { value: TipoPagamento.PARCELADO, label: 'Parcelado' },
+    {
+      value: TipoPagamento.A_VISTA,
+      label: 'À Vista',
+      icon: 'fas fa-money-bill-wave',
+      desc: 'Pagamento imediato',
+    },
+    {
+      value: TipoPagamento.A_PRAZO,
+      label: 'À Prazo',
+      icon: 'fas fa-calendar-check',
+      desc: 'Pagamento futuro acordado',
+    },
+    {
+      value: TipoPagamento.PARCELADO,
+      label: 'Parcelado',
+      icon: 'fas fa-credit-card',
+      desc: 'Dividido em parcelas',
+    },
   ];
 
   moedas = [
-    { value: 'BRL', label: 'Real (R$)' },
-    { value: 'USD', label: 'Dólar (US$)' },
+    {
+      value: 'BRL',
+      label: 'Real (R$)',
+      icon: 'fas fa-dollar-sign',
+    },
+    {
+      value: 'USD',
+      label: 'Dólar (US$)',
+      icon: 'fas fa-dollar-sign',
+    },
   ];
 
   constructor(public modalRef: MdbModalRef<TransacoesFormComponent>) {
@@ -74,6 +134,67 @@ export class TransacoesFormComponent {
       this.buscarTransacaoPorId(this.transacao.id);
     }
   }
+
+  // ── Métodos dos dropdowns customizados ──────────────────
+
+  // Moeda
+  getMoedaLabel(): string {
+    return this.moedas.find(m => m.value === this.moedaSelecionada)?.label || 'Selecione...';
+  }
+  getMoedaIcon(): string {
+    return this.moedas.find(m => m.value === this.moedaSelecionada)?.icon || 'fas fa-coins';
+  }
+  selecionarMoeda(moeda: any): void {
+    this.moedaSelecionada = moeda.value;
+    this.forcarAtualizacao();
+    this.dropdownMoedaOpen = false;
+  }
+
+  // Tipo de Transação
+  getTipoTransacaoLabel(): string {
+    return this.tipoTransacoes.find(t => t.value === this.transacao.tipoTransacao)?.label || 'Selecione...';
+  }
+  getTipoTransacaoIcon(): string {
+    return this.tipoTransacoes.find(t => t.value === this.transacao.tipoTransacao)?.icon || 'fas fa-exchange-alt';
+  }
+  selecionarTipoTransacao(tipo: any): void {
+    this.transacao.tipoTransacao = tipo.value;
+    this.dropdownTipoOpen = false;
+  }
+
+  // Status do Pagamento
+  getStatusLabel(): string {
+    return this.statusPagamentos.find(s => s.value === this.transacao.statusPagamento)?.label || 'Selecione...';
+  }
+  getStatusIcon(): string {
+    return this.statusPagamentos.find(s => s.value === this.transacao.statusPagamento)?.icon || 'fas fa-circle';
+  }
+  selecionarStatus(status: any): void {
+    this.transacao.statusPagamento = status.value;
+    this.dropdownStatusOpen = false;
+  }
+
+  // Tipo de Pagamento
+  getTipoPagamentoLabel(): string {
+    return this.tipoPagamentos.find(t => t.value === this.transacao.tipoPagamento)?.label || 'Selecione...';
+  }
+  getTipoPagamentoIcon(): string {
+    return this.tipoPagamentos.find(t => t.value === this.transacao.tipoPagamento)?.icon || 'fas fa-credit-card';
+  }
+  selecionarTipoPagamento(tp: any): void {
+    this.transacao.tipoPagamento = tp.value;
+    this.dropdownPagamentoOpen = false;
+  }
+
+  // ── Fechar dropdowns ao clicar fora ────────────────────
+  fecharTodosDropdowns(): void {
+    this.dropdownMoedaOpen = false;
+    this.dropdownTipoOpen = false;
+    this.dropdownStatusOpen = false;
+    this.dropdownPagamentoOpen = false;
+  }
+
+  // ── Lógica original ─────────────────────────────────────
 
   obterValorEmReais(): number {
     if (this.valorEntrada == null) return 0;

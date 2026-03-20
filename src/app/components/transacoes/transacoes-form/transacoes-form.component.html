@@ -1,128 +1,279 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          {{ transacao.id ? "Editando Transação" : "Nova Transação" }}
-        </h5>
-        <button type="button" class="btn-close" (click)="close()"></button>
+<div class="transacao-modal-wrapper">
+
+  <!-- Header -->
+  <div class="transacao-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="fas" [ngClass]="transacao.id ? 'fa-edit' : 'fa-plus'"></i>
       </div>
-
-      <div class="card">
-        <div class="card-body centre">
-          <form #formulario="ngForm" (ngSubmit)="save()">
-
-            <label mdbLabel class="form-label" for="data">Data da Transação:</label>
-            <input required [(ngModel)]="transacao.data" mdbInput id="data" type="date" name="data"
-              class="form-control" />
-            <br />
-
-            <label mdbLabel class="form-label" for="caracteristica">
-              Característica da Transação
-            </label>
-            <input required [(ngModel)]="transacao.caracteristica" mdbInput id="caracteristica" type="text"
-              name="caracteristica" class="form-control" />
-            <br />
-
-            <label mdbLabel class="form-label">Valor da Transação:</label>
-            <div class="row">
-              <div class="col-md-8">
-                <input required [(ngModel)]="valorEntrada" (input)="forcarAtualizacao()" mdbInput id="valorReais"
-                  type="number" name="valorReais" class="form-control" placeholder="Digite o valor" />
-              </div>
-              <div class="col-md-4">
-                <select id="moedaSelecionada" class="form-select" [(ngModel)]="moedaSelecionada"
-                  (change)="forcarAtualizacao()" name="moedaSelecionada" required>
-                  <option *ngFor="let moeda of moedas" [value]="moeda.value">
-                    {{ moeda.label }}
-                  </option>
-                </select>
-              </div>
-            </div>
-
-            <div class="row mt-2">
-              <div class="col-md-6">
-                <small class="form-text text-muted">
-                  <strong>Em Reais:</strong>
-                  R$ {{ obterValorEmReais() | number:'1.2-2' }}
-                </small>
-              </div>
-              <div class="col-md-6">
-                <small class="form-text text-muted">
-                  <strong>Em Dólares:</strong>
-                  US$ {{ obterValorEmDolares() | number:'1.2-2' }}
-                </small>
-              </div>
-            </div>
-            <br />
-
-            <label mdbLabel class="form-label">
-              Taxa do Câmbio:
-              {{ taxaCambio && taxaCambio.cambio
-              ? (taxaCambio.cambio | number:'1.2-2')
-              : 'Carregando...' }}
-            </label>
-            <br />
-            <button (click)="atualizarTaxa()" class="btn btn-secondary" type="button" mdbRipple>
-              <i class="fa-solid fa-rotate"></i> Atualizar
-            </button>
-            <br /><br />
-
-            <div class="mb-3">
-              <label class="form-label">Tipo de Transação</label>
-              <select id="tipoTransacao" class="form-select" [(ngModel)]="transacao.tipoTransacao" name="tipoTransacao"
-                required>
-                <option *ngFor="let tipo of tipoTransacoes" [value]="tipo.value">
-                  {{ tipo.label }}
-                </option>
-              </select>
-            </div>
-            <br />
-
-            <div class="mb-3">
-              <label class="form-label">Status do Pagamento</label>
-              <select id="statusPagamento" class="form-select" [(ngModel)]="transacao.statusPagamento"
-                name="statusPagamento" required>
-                <option *ngFor="let status of statusPagamentos" [value]="status.value">
-                  {{ status.label }}
-                </option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Tipo de Pagamento</label>
-              <select id="tipoPagamento" class="form-select" [(ngModel)]="transacao.tipoPagamento" name="tipoPagamento"
-                required>
-                <option *ngFor="let tp of tipoPagamentos" [value]="tp.value">
-                  {{ tp.label }}
-                </option>
-              </select>
-            </div>
-
-            <div class="mb-3">
-              <label class="form-label">Quantidade de Itens</label>
-              <input type="number" class="form-control text-center fw-bold" [(ngModel)]="quantidadeItens"
-                name="quantidadeItens" min="0" />
-            </div>
-            <br />
-
-            @if (transacao.id > 0) {
-            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
-              <i class="fas fa-save fa-sm"></i> Atualizar
-            </button>
-            } @else {
-            <button type="submit" [disabled]="!formulario.valid" class="btn btn-success btn-rounded">
-              <i class="fas fa-save fa-sm"></i> Salvar
-            </button>
-            }
-
-            <button type="button" class="btn btn-danger btn-rounded m-1" (click)="close()">
-              <i class="fa-solid fa-xmark"></i> Cancelar
-            </button>
-
-          </form>
-        </div>
+      <div>
+        <h5 class="header-title">{{ transacao.id ? 'Editando Transação' : 'Nova Transação' }}</h5>
+        <p class="header-subtitle">{{ transacao.id ? 'Atualize os dados da transação' : 'Preencha os dados para registrar' }}</p>
       </div>
     </div>
+    <button type="button" class="btn-close-custom" (click)="close()">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
+
+  <!-- Body -->
+  <div class="transacao-body">
+    <form #formulario="ngForm" (ngSubmit)="save()" novalidate>
+
+      <!-- Seção: Dados Básicos -->
+      <div class="form-section">
+        <div class="section-label">
+          <i class="fas fa-info-circle"></i> Dados Básicos
+        </div>
+
+        <div class="field-group full">
+          <label class="field-label">
+            <i class="fas fa-calendar-alt"></i> Data da Transação
+          </label>
+          <input
+            required
+            [(ngModel)]="transacao.data"
+            mdbInput
+            id="data"
+            type="date"
+            name="data"
+            class="field-input"
+          />
+        </div>
+
+        <div class="field-group full">
+          <label class="field-label">
+            <i class="fas fa-tag"></i> Característica
+          </label>
+          <input
+            required
+            [(ngModel)]="transacao.caracteristica"
+            mdbInput
+            id="caracteristica"
+            type="text"
+            name="caracteristica"
+            class="field-input"
+            placeholder="Ex: Venda de produto, Pagamento fornecedor..."
+          />
+        </div>
+      </div>
+
+      <!-- Seção: Valor -->
+      <div class="form-section">
+        <div class="section-label">
+          <i class="fas fa-dollar-sign"></i> Valor da Transação
+        </div>
+
+        <div class="fields-row">
+          <div class="field-group grow">
+            <label class="field-label">
+              <i class="fas fa-coins"></i> Valor
+            </label>
+            <input
+              required
+              [(ngModel)]="valorEntrada"
+              (input)="forcarAtualizacao()"
+              mdbInput
+              id="valorReais"
+              type="number"
+              name="valorReais"
+              class="field-input"
+              placeholder="0.00"
+            />
+          </div>
+
+          <!-- Moeda - abre para baixo normalmente -->
+          <div class="field-group shrink">
+            <label class="field-label">
+              <i class="fas fa-globe"></i> Moeda
+            </label>
+            <div class="custom-select-wrapper" [class.open]="dropdownMoedaOpen">
+              <div class="custom-select-trigger" (click)="dropdownMoedaOpen = !dropdownMoedaOpen">
+                <span class="select-value">
+                  <i [class]="getMoedaIcon()"></i>
+                  {{ getMoedaLabel() }}
+                </span>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+              <div class="custom-select-options" *ngIf="dropdownMoedaOpen">
+                <div
+                  class="custom-option"
+                  *ngFor="let moeda of moedas"
+                  [class.selected]="moedaSelecionada === moeda.value"
+                  (click)="selecionarMoeda(moeda)"
+                >
+                  <i [class]="moeda.icon || 'fas fa-coins'"></i>
+                  <div class="option-info">
+                    <span class="option-label">{{ moeda.label }}</span>
+                  </div>
+                  <i class="fas fa-check check-icon" *ngIf="moedaSelecionada === moeda.value"></i>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" name="moedaSelecionada" [(ngModel)]="moedaSelecionada" required />
+          </div>
+        </div>
+
+        <div class="conversao-preview">
+          <div class="conversao-item">
+            <span class="conversao-label">Em Reais</span>
+            <span class="conversao-valor">R$ {{ obterValorEmReais() | number:'1.2-2' }}</span>
+          </div>
+          <div class="conversao-divider"></div>
+          <div class="conversao-item">
+            <span class="conversao-label">Em Dólares</span>
+            <span class="conversao-valor">US$ {{ obterValorEmDolares() | number:'1.2-2' }}</span>
+          </div>
+        </div>
+
+        <div class="cambio-box">
+          <div class="cambio-info">
+            <i class="fas fa-exchange-alt"></i>
+            <span class="cambio-label">Taxa de Câmbio</span>
+            <span class="cambio-valor">
+              {{ taxaCambio && taxaCambio.cambio ? (taxaCambio.cambio | number:'1.2-2') : 'Carregando...' }}
+            </span>
+          </div>
+          <button (click)="atualizarTaxa()" class="btn-atualizar" type="button" mdbRipple>
+            <i class="fa-solid fa-rotate"></i> Atualizar
+          </button>
+        </div>
+      </div>
+
+      <!-- Seção: Classificação -->
+      <div class="form-section">
+        <div class="section-label">
+          <i class="fas fa-sliders-h"></i> Classificação
+        </div>
+
+        <div class="fields-row">
+
+          <!-- Tipo de Transação - abre para baixo -->
+          <div class="field-group grow">
+            <label class="field-label">
+              <i class="fas fa-exchange-alt"></i> Tipo de Transação
+            </label>
+            <div class="custom-select-wrapper" [class.open]="dropdownTipoOpen">
+              <div class="custom-select-trigger" (click)="dropdownTipoOpen = !dropdownTipoOpen">
+                <span class="select-value">
+                  <i [class]="getTipoTransacaoIcon()"></i>
+                  {{ getTipoTransacaoLabel() }}
+                </span>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+              <div class="custom-select-options" *ngIf="dropdownTipoOpen">
+                <div
+                  class="custom-option"
+                  *ngFor="let tipo of tipoTransacoes"
+                  [class.selected]="transacao.tipoTransacao === tipo.value"
+                  (click)="selecionarTipoTransacao(tipo)"
+                >
+                  <i [class]="tipo.icon || 'fas fa-exchange-alt'"></i>
+                  <div class="option-info">
+                    <span class="option-label">{{ tipo.label }}</span>
+                    <span class="option-desc" *ngIf="tipo.desc">{{ tipo.desc }}</span>
+                  </div>
+                  <i class="fas fa-check check-icon" *ngIf="transacao.tipoTransacao === tipo.value"></i>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" name="tipoTransacao" [(ngModel)]="transacao.tipoTransacao" required />
+          </div>
+
+          <!-- Status do Pagamento - abre para baixo -->
+          <div class="field-group grow">
+            <label class="field-label">
+              <i class="fas fa-check-circle"></i> Status do Pagamento
+            </label>
+            <div class="custom-select-wrapper" [class.open]="dropdownStatusOpen">
+              <div class="custom-select-trigger" (click)="dropdownStatusOpen = !dropdownStatusOpen">
+                <span class="select-value">
+                  <i [class]="getStatusIcon()"></i>
+                  {{ getStatusLabel() }}
+                </span>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+              <div class="custom-select-options" *ngIf="dropdownStatusOpen">
+                <div
+                  class="custom-option"
+                  *ngFor="let status of statusPagamentos"
+                  [class.selected]="transacao.statusPagamento === status.value"
+                  (click)="selecionarStatus(status)"
+                >
+                  <i [class]="status.icon || 'fas fa-circle'"></i>
+                  <div class="option-info">
+                    <span class="option-label">{{ status.label }}</span>
+                    <span class="option-desc" *ngIf="status.desc">{{ status.desc }}</span>
+                  </div>
+                  <i class="fas fa-check check-icon" *ngIf="transacao.statusPagamento === status.value"></i>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" name="statusPagamento" [(ngModel)]="transacao.statusPagamento" required />
+          </div>
+        </div>
+
+        <div class="fields-row">
+
+          <!-- Tipo de Pagamento - abre para CIMA (dropup) -->
+          <div class="field-group grow">
+            <label class="field-label">
+              <i class="fas fa-credit-card"></i> Tipo de Pagamento
+            </label>
+            <div class="custom-select-wrapper dropup" [class.open]="dropdownPagamentoOpen">
+              <div class="custom-select-trigger" (click)="dropdownPagamentoOpen = !dropdownPagamentoOpen">
+                <span class="select-value">
+                  <i [class]="getTipoPagamentoIcon()"></i>
+                  {{ getTipoPagamentoLabel() }}
+                </span>
+                <i class="fas fa-chevron-down select-arrow"></i>
+              </div>
+              <div class="custom-select-options" *ngIf="dropdownPagamentoOpen">
+                <div
+                  class="custom-option"
+                  *ngFor="let tp of tipoPagamentos"
+                  [class.selected]="transacao.tipoPagamento === tp.value"
+                  (click)="selecionarTipoPagamento(tp)"
+                >
+                  <i [class]="tp.icon || 'fas fa-credit-card'"></i>
+                  <div class="option-info">
+                    <span class="option-label">{{ tp.label }}</span>
+                    <span class="option-desc" *ngIf="tp.desc">{{ tp.desc }}</span>
+                  </div>
+                  <i class="fas fa-check check-icon" *ngIf="transacao.tipoPagamento === tp.value"></i>
+                </div>
+              </div>
+            </div>
+            <input type="hidden" name="tipoPagamento" [(ngModel)]="transacao.tipoPagamento" required />
+          </div>
+
+          <!-- Quantidade de Itens -->
+          <div class="field-group shrink">
+            <label class="field-label">
+              <i class="fas fa-boxes"></i> Qtd. Itens
+            </label>
+            <input
+              type="number"
+              class="field-input text-center"
+              [(ngModel)]="quantidadeItens"
+              name="quantidadeItens"
+              min="0"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="transacao-footer">
+        <button type="button" class="btn-cancelar" (click)="close()">
+          <i class="fa-solid fa-xmark"></i> Cancelar
+        </button>
+        <button type="submit" [disabled]="!formulario.valid" class="btn-salvar">
+          <i class="fas fa-save"></i> {{ transacao.id ? 'Atualizar' : 'Salvar' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+
 </div>
