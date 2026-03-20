@@ -34,7 +34,10 @@ export class ItensListComponent {
   lista: Itemnota[] = [];
   listaFiltrada: Itemnota[] = [];
   itemEdit!: Itemnota;
-  taxaCambioAtual: number = 5.8; // Valor padrão
+  taxaCambioAtual: number = 5.8;
+
+  // ── Estado do dropdown customizado de filtro ────────────
+  dropdownFiltroOpen: boolean = false;
 
   filtros = {
     pesquisa: '',
@@ -63,7 +66,6 @@ export class ItensListComponent {
         } else if (taxa && taxa.taxaUsdBrl) {
           this.taxaCambioAtual = taxa.taxaUsdBrl;
         }
-        console.log('Taxa de câmbio carregada:', this.taxaCambioAtual);
       },
       error: (e) => {
         console.error('Erro ao carregar taxa de câmbio:', e);
@@ -85,7 +87,6 @@ export class ItensListComponent {
 
   aplicarFiltros() {
     this.listaFiltrada = this.lista.filter((item) => {
-      // Filtro por pesquisa (ID ou descrição)
       let passaPesquisa = true;
       if (this.filtros.pesquisa) {
         if (this.filtros.tipoPesquisa === 'id') {
@@ -98,13 +99,11 @@ export class ItensListComponent {
         }
       }
 
-      // Filtro por valor mínimo
       let passaValorMin = true;
       if (this.filtros.valorMin !== null) {
         passaValorMin = item.valorUnitario >= this.filtros.valorMin;
       }
 
-      // Filtro por valor máximo
       let passaValorMax = true;
       if (this.filtros.valorMax !== null) {
         passaValorMax = item.valorUnitario <= this.filtros.valorMax;
@@ -171,19 +170,11 @@ export class ItensListComponent {
       if (result.isConfirmed) {
         this.itemService.excluirItem(item.id).subscribe({
           next: () => {
-            Swal.fire({
-              title: 'Item excluído com sucesso',
-              icon: 'success',
-              confirmButtonText: 'OK',
-            });
+            Swal.fire({ title: 'Item excluído com sucesso', icon: 'success', confirmButtonText: 'OK' });
             this.buscarTodosItens();
           },
           error: () => {
-            Swal.fire({
-              icon: 'error',
-              title: 'Erro ao Excluir Item',
-              confirmButtonText: 'OK',
-            });
+            Swal.fire({ icon: 'error', title: 'Erro ao Excluir Item', confirmButtonText: 'OK' });
             this.buscarTodosItens();
           },
         });

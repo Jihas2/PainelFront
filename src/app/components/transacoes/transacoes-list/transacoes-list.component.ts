@@ -15,6 +15,7 @@ import {
   MdbModalService,
 } from 'mdb-angular-ui-kit/modal';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { TransacoesFormComponent } from '../transacoes-form/transacoes-form.component';
 import Swal from 'sweetalert2';
 import {
@@ -26,7 +27,7 @@ import {
 @Component({
   selector: 'app-transacoes-list',
   standalone: true,
-  imports: [MdbModalModule, FormsModule],
+  imports: [MdbModalModule, FormsModule, CommonModule],
   templateUrl: './transacoes-list.component.html',
   styleUrl: './transacoes-list.component.scss',
 })
@@ -43,7 +44,6 @@ export class TransacoesListComponent {
   @Output('meuEvento') meuEvento = new EventEmitter();
 
   transacaoService = inject(TransacaoService);
-
   transacaoEdit!: Transacao;
 
   modalService = inject(MdbModalService);
@@ -74,11 +74,7 @@ export class TransacoesListComponent {
       if (result.isConfirmed) {
         this.transacaoService.excluirTransacao(transacao.id).subscribe({
           next: () => {
-            Swal.fire({
-              title: 'Transação Deletada com Sucesso!',
-              icon: 'success',
-              confirmButtonText: 'Ok',
-            });
+            Swal.fire({ title: 'Transação Deletada com Sucesso!', icon: 'success', confirmButtonText: 'Ok' });
             this.buscarTodasTransacoes();
           },
           error: (e) => {
@@ -97,10 +93,8 @@ export class TransacoesListComponent {
 
     const valor = this.pesquisa.trim();
 
-    // Se for número busca por ID
     if (!isNaN(Number(valor))) {
       const id = Number(valor);
-
       this.transacaoService.buscarTransacaoPorId(id).subscribe({
         next: (resultado) => {
           this.lista = resultado ? [resultado] : [];
@@ -110,10 +104,7 @@ export class TransacoesListComponent {
           Swal.fire('Aviso', 'Transação não encontrada', 'warning');
         }
       });
-
-    }
-    // Se for texto busca por descrição
-    else {
+    } else {
       this.transacaoService.buscarTransacoesPorCaracteristica(valor).subscribe({
         next: (resultado) => {
           this.lista = resultado;

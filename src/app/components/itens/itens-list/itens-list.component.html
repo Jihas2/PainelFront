@@ -1,169 +1,172 @@
-<br />
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="card">
-        <div class="card-body">
-          <h3 class="centre">Itens Disponíveis</h3>
-          
-          <!-- Filtros Avançados -->
-          <div class="row mb-3">
-            <div class="col-md-3">
-              <input
-                [(ngModel)]="filtros.pesquisa"
-                type="text"
-                class="form-control"
-                placeholder="Pesquisar..."
-              />
-            </div>
-            <div class="col-md-2">
-              <select [(ngModel)]="filtros.tipoPesquisa" class="form-select">
-                <option value="id">Por ID</option>
-                <option value="descricao">Por Descrição</option>
-              </select>
-            </div>
-            <div class="col-md-2">
-              <input
-                [(ngModel)]="filtros.valorMin"
-                type="number"
-                class="form-control"
-                placeholder="Valor mín (R$)"
-              />
-            </div>
-            <div class="col-md-2">
-              <input
-                [(ngModel)]="filtros.valorMax"
-                type="number"
-                class="form-control"
-                placeholder="Valor máx (R$)"
-              />
-            </div>
-            <div class="col-md-3">
-              <button
-                type="button"
-                class="btn btn-primary me-2"
-                mdbRipple
-                (click)="aplicarFiltros()"
-              >
-                <i class="fas fa-search"></i> Filtrar
-              </button>
-              <button
-                type="button"
-                class="btn btn-secondary"
-                mdbRipple
-                (click)="limparFiltros()"
-              >
-                <i class="fas fa-times"></i> Limpar
-              </button>
-            </div>
-          </div>
+<div class="itens-page" [class.modo-modal]="modoModal">
 
-          <!-- Totalizadores -->
-          <div class="row mb-3" *ngIf="!modoModal && lista.length > 0">
-            <div class="col-md-12">
-              <div class="alert alert-info d-flex justify-content-between align-items-center">
-                <div>
-                  <strong>Total de Itens:</strong> {{ lista.length }}
-                </div>
-                <div>
-                  <strong>Valor Total do Estoque:</strong>
-                  <span class="ms-2">{{ calcularValorTotalEstoque() | currency : "BRL" }}</span>
-                  <small class="text-muted ms-2">({{ (calcularValorTotalEstoque() / taxaCambioAtual) | currency : "USD" }})</small>
-                </div>
-              </div>
-            </div>
-          </div>
+  <!-- Header (só fora do modal) -->
+  <div class="page-header" *ngIf="!modoModal">
+    <div class="page-header-left">
+      <h3 class="page-title">
+        <i class="fas fa-boxes"></i> Itens Disponíveis
+      </h3>
+    </div>
+    <button class="btn-add" (click)="new()" mdbRipple>
+      <i class="fas fa-plus"></i> Add Item
+    </button>
+  </div>
 
-          <div class="row mb-3">
-            <div class="col-12 text-end">
-              <button
-                (click)="new()"
-                class="btn btn-success btn-rounded"
-                mdbRippled
-              >
-                <i class="fas fa-plus fa-sm"></i> Add Item
-              </button>
-            </div>
-          </div>
+  <!-- Header modal -->
+  <div class="modal-search-header" *ngIf="modoModal">
+    <h5 class="modal-search-title">
+      <i class="fas fa-boxes"></i> Selecionar Item
+    </h5>
+  </div>
 
-          <div class="table-responsive">
-            <table border="1" class="table table-striped">
-              <thead>
-                <tr>
-                  <th scope="col">ID</th>
-                  <th scope="col">Descrição</th>
-                  @if (!modoModal) {
-                  <th scope="col">Valor/Un</th>
-                  <th scope="col">Quantidade</th>
-                  <th scope="col">Valor Total</th>
-                  <th scope="col">ID Transação</th>
-                  <th scope="col">Ações</th>
-                  } @else {
-                  <th scope="col">Selecionar</th>
-                  }
-                </tr>
-              </thead>
-              <tbody>
-                @for (item of listaFiltrada; track $index) {
-                <tr>
-                  <td>{{ item.id }}</td>
-                  <td>{{ item.descricao }}</td>
-                  @if (!modoModal){
-                  <td>
-                    <div>{{ item.valorUnitario | currency : "BRL" }}</div>
-                    <small class="text-muted">{{ (item.valorUnitario / taxaCambioAtual) | currency : "USD" }}</small>
-                  </td>
-                  <td>{{ item.quantidade }}</td>
-                  <td>
-                    <div>
-                      <strong>{{ (item.quantidade * item.valorUnitario) | currency : "BRL" }}</strong>
-                    </div>
-                    <small class="text-muted">{{ ((item.quantidade * item.valorUnitario) / taxaCambioAtual) | currency : "USD" }}</small>
-                  </td>
-                  <td>{{ item.transacaoId || '---' }}</td>
-                  <td class="direita">
-                    <button
-                      type="button"
-                      class="btn btn-primary btn-rounded m-1"
-                      mdbRipple
-                      (click)="edit(item)"
-                    >
-                      <i class="fas fa-pencil fa-sm"></i>
-                    </button>
-                    <button
-                      type="button"
-                      class="btn btn-danger btn-rounded"
-                      mdbRipple
-                      (click)="excluirItem(item)"
-                    >
-                      <i class="fas fa-trash fa-sm"></i>
-                    </button>
-                  </td>
-                  }@else {
-                  <td class="direita">
-                    <button
-                      (click)="selecionar(item)"
-                      class="btn btn-success btn-rounded"
-                      mdbRippled
-                    >
-                      Selecionar
-                    </button>
-                  </td>
-                  }
-                </tr>
-                }
-                @if (listaFiltrada.length === 0) {
-                <tr>
-                  <td colspan="7" class="text-center">
-                    Nenhum item encontrado.
-                  </td>
-                </tr>
-                }
-              </tbody>
-            </table>
-          </div>
+  <!-- Filtros -->
+  <div class="filters-bar">
+    <div class="filter-input-wrapper">
+      <i class="fas fa-search filter-icon"></i>
+      <input
+        [(ngModel)]="filtros.pesquisa"
+        type="text"
+        class="filter-input"
+        placeholder="Pesquisar..."
+      />
+    </div>
+
+    <!-- Dropdown customizado para tipo de pesquisa -->
+    <div class="filter-custom-select" [class.open]="dropdownFiltroOpen">
+      <div class="filter-select-trigger" (click)="dropdownFiltroOpen = !dropdownFiltroOpen">
+        <span>{{ filtros.tipoPesquisa === 'id' ? 'Por ID' : 'Por Descrição' }}</span>
+        <i class="fas fa-chevron-down filter-select-arrow"></i>
+      </div>
+      <div class="filter-select-options" *ngIf="dropdownFiltroOpen">
+        <div class="filter-select-option" [class.selected]="filtros.tipoPesquisa === 'id'" (click)="filtros.tipoPesquisa = 'id'; dropdownFiltroOpen = false">
+          <i class="fas fa-hashtag"></i> Por ID
+        </div>
+        <div class="filter-select-option" [class.selected]="filtros.tipoPesquisa === 'descricao'" (click)="filtros.tipoPesquisa = 'descricao'; dropdownFiltroOpen = false">
+          <i class="fas fa-font"></i> Por Descrição
         </div>
       </div>
     </div>
+
+    <input
+      [(ngModel)]="filtros.valorMin"
+      type="number"
+      class="filter-input small"
+      placeholder="Valor mín (R$)"
+    />
+
+    <input
+      [(ngModel)]="filtros.valorMax"
+      type="number"
+      class="filter-input small"
+      placeholder="Valor máx (R$)"
+    />
+
+    <div class="filter-actions">
+      <button class="btn-filtrar" (click)="aplicarFiltros()" mdbRipple>
+        <i class="fas fa-search"></i> Filtrar
+      </button>
+      <button class="btn-limpar" (click)="limparFiltros()" mdbRipple>
+        <i class="fas fa-times"></i> Limpar
+      </button>
+    </div>
   </div>
+
+  <!-- Totalizadores -->
+  <div class="totais-bar" *ngIf="!modoModal && lista.length > 0">
+    <div class="total-item">
+      <i class="fas fa-layer-group"></i>
+      <span class="total-label">Total de Itens:</span>
+      <span class="total-valor">{{ lista.length }}</span>
+    </div>
+    <div class="total-divider"></div>
+    <div class="total-item">
+      <i class="fas fa-warehouse"></i>
+      <span class="total-label">Valor Total do Estoque:</span>
+      <span class="total-valor destaque">{{ calcularValorTotalEstoque() | currency:'BRL' }}</span>
+      <span class="total-secundario">({{ (calcularValorTotalEstoque() / taxaCambioAtual) | currency:'USD' }})</span>
+    </div>
+  </div>
+
+  <!-- Tabela -->
+  <div class="table-wrapper">
+    <div class="table-responsive">
+      <table class="itens-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Descrição</th>
+            @if (!modoModal) {
+              <th class="text-end">Valor/Un</th>
+              <th class="text-center">Qtd</th>
+              <th class="text-end">Valor Total</th>
+              <th class="text-center">ID Transação</th>
+              <th class="text-center">Ações</th>
+            } @else {
+              <th class="text-center">Selecionar</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (item of listaFiltrada; track $index) {
+            <tr>
+              <td>
+                <span class="id-badge">{{ item.id }}</span>
+              </td>
+              <td>
+                <span class="item-descricao">{{ item.descricao }}</span>
+              </td>
+
+              @if (!modoModal) {
+                <td class="text-end">
+                  <div class="valor-principal">{{ item.valorUnitario | currency:'BRL' }}</div>
+                  <div class="valor-secundario">{{ (item.valorUnitario / taxaCambioAtual) | currency:'USD' }}</div>
+                </td>
+                <td class="text-center">
+                  <span class="qtd-badge">{{ item.quantidade }}</span>
+                </td>
+                <td class="text-end">
+                  <div class="valor-principal destaque">{{ (item.quantidade * item.valorUnitario) | currency:'BRL' }}</div>
+                  <div class="valor-secundario">{{ ((item.quantidade * item.valorUnitario) / taxaCambioAtual) | currency:'USD' }}</div>
+                </td>
+                <td class="text-center">
+                  <span class="transacao-badge" *ngIf="item.transacaoId">
+                    <i class="fas fa-link"></i> #{{ item.transacaoId }}
+                  </span>
+                  <span class="sem-transacao" *ngIf="!item.transacaoId">—</span>
+                </td>
+                <td class="text-center">
+                  <div class="acoes-group">
+                    <button class="btn-acao edit" (click)="edit(item)" mdbRipple title="Editar">
+                      <i class="fas fa-pencil"></i>
+                    </button>
+                    <button class="btn-acao delete" (click)="excluirItem(item)" mdbRipple title="Excluir">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              } @else {
+                <td class="text-center">
+                  <button class="btn-selecionar" (click)="selecionar(item)" mdbRipple>
+                    <i class="fas fa-check"></i> Selecionar
+                  </button>
+                </td>
+              }
+            </tr>
+          }
+
+          @if (listaFiltrada.length === 0) {
+            <tr>
+              <td [attr.colspan]="modoModal ? 3 : 7">
+                <div class="empty-state">
+                  <i class="fas fa-inbox"></i>
+                  <p>Nenhum item encontrado</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>

@@ -1,141 +1,147 @@
-<div class="container-page">
-  <div class="card panel-card">
-    <div class="card-body">
+<div class="transacoes-page" [class.modo-modal]="modoModal">
 
-      <h3 class="title-page text-center">Menu de Transações</h3>
+  <!-- Header -->
+  <div class="page-header" *ngIf="!modoModal">
+    <div class="page-header-left">
+      <h3 class="page-title">
+        <i class="fas fa-exchange-alt"></i> Menu de Transações
+      </h3>
+    </div>
+    <button class="btn-add" (click)="new()" mdbRipple>
+      <i class="fas fa-plus"></i> Add Transação
+    </button>
+  </div>
 
-      <!-- Linha de filtros -->
-      <div class="filters-row">
-        <div class="input-group search-group">
-          <input
-            [(ngModel)]="pesquisa"
-            type="text"
-            class="form-control"
-            placeholder="Pesquisar Transação por ID ou Característica"
-          />
-          <button
-            type="button"
-            class="btn btn-primary"
-            (click)="search()"
-          >
-            <i class="fas fa-search"></i> Buscar
-          </button>
-        </div>
+  <!-- Header modal -->
+  <div class="modal-search-header" *ngIf="modoModal">
+    <h5 class="modal-search-title">
+      <i class="fas fa-exchange-alt"></i> Selecionar Transação
+    </h5>
+  </div>
 
-        @if (!modoModal) {
-        <button
-          (click)="new()"
-          class="btn btn-success btn-add"
-        >
-          <i class="fas fa-plus fa-sm"></i>  Add Transação
-        </button>
-        }
-      </div>
+  <!-- Filtros -->
+  <div class="filters-bar">
+    <div class="filter-input-wrapper">
+      <i class="fas fa-search filter-icon"></i>
+      <input
+        [(ngModel)]="pesquisa"
+        type="text"
+        class="filter-input"
+        placeholder="Pesquisar por ID ou Característica..."
+        (keyup.enter)="search()"
+      />
+    </div>
+    <button class="btn-buscar" (click)="search()" mdbRipple>
+      <i class="fas fa-search"></i> Buscar
+    </button>
+  </div>
 
-      <!-- Resumo -->
-      @if (!modoModal) {
-      <div class="summary-box">
-        <div>
-          Total de Transações:
-          <strong>{{ lista.length }}</strong>
-        </div>
-      </div>
-      }
-
-      <!-- Tabela -->
-      <div class="table-responsive mt-3">
-        <table class="table table-bordered table-hover">
-          <thead class="table-light">
-            <tr>
-              <th>ID</th>
-              <th>Data</th>
-              <th>Característica</th>
-
-              @if (!modoModal) {
-                <th>Tipo</th>
-                <th>Status</th>
-                <th>Pagamento</th>
-                <th>Itens</th>
-                <th class="text-center">Ações</th>
-              }
-            </tr>
-          </thead>
-
-          <tbody>
-            @for (transacao of lista; track $index) {
-            <tr>
-              <td>{{ transacao.id }}</td>
-              <td>{{ transacao.data }}</td>
-              <td>{{ transacao.caracteristica.toUpperCase() }}</td>
-
-              @if (!modoModal) {
-
-              <td>
-                {{
-                  tipoTransacaoDescricao[
-                    transacao.tipoTransacao
-                  ].toUpperCase()
-                }}
-              </td>
-
-              <td>
-                {{
-                  statusPagamentoDescricao[
-                    transacao.statusPagamento
-                  ].toUpperCase()
-                }}
-              </td>
-
-              <td>
-                {{
-                  tipoPagamentoDescricao[
-                    transacao.tipoPagamento
-                  ].toUpperCase()
-                }}
-              </td>
-
-              <td class="text-center">
-                @if (transacao.itens) {
-                  {{ transacao.itens.length }}
-                } @else {
-                  ---
-                }
-              </td>
-
-              <td class="text-center">
-                <button
-                  class="btn btn-sm btn-primary me-1"
-                  (click)="edit(transacao)"
-                >
-                  <i class="fas fa-pencil"></i>
-                </button>
-
-                <button
-                  class="btn btn-sm btn-danger"
-                  (click)="excluirTransacao(transacao)"
-                >
-                  <i class="fas fa-trash"></i>
-                </button>
-              </td>
-
-              } @else {
-
-              <td class="text-center">
-                <button
-                  (click)="selecionar(transacao)"
-                  class="btn btn-success btn-sm"
-                >
-                  Selecionar
-                </button>
-              </td>
-
-              }
-            </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-
+  <!-- Totalizador -->
+  <div class="totais-bar" *ngIf="!modoModal">
+    <div class="total-item">
+      <i class="fas fa-list-alt"></i>
+      <span class="total-label">Total de Transações:</span>
+      <span class="total-valor">{{ lista.length }}</span>
     </div>
   </div>
+
+  <!-- Tabela -->
+  <div class="table-wrapper">
+    <div class="table-responsive">
+      <table class="transacoes-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Data</th>
+            <th>Característica</th>
+            @if (!modoModal) {
+              <th class="text-center">Tipo</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Pagamento</th>
+              <th class="text-center">Itens</th>
+              <th class="text-center">Ações</th>
+            } @else {
+              <th class="text-center">Selecionar</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (transacao of lista; track $index) {
+            <tr>
+              <td>
+                <span class="id-badge">{{ transacao.id }}</span>
+              </td>
+              <td>
+                <span class="data-text">{{ transacao.data }}</span>
+              </td>
+              <td>
+                <span class="caracteristica-text">{{ transacao.caracteristica }}</span>
+              </td>
+
+              @if (!modoModal) {
+                <td class="text-center">
+                  <span class="tipo-badge" [class.credito]="transacao.tipoTransacao === 'CREDITO'" [class.debito]="transacao.tipoTransacao === 'DEBITO'">
+                    <i class="fas" [class.fa-arrow-up]="transacao.tipoTransacao === 'CREDITO'" [class.fa-arrow-down]="transacao.tipoTransacao === 'DEBITO'"></i>
+                    {{ tipoTransacaoDescricao[transacao.tipoTransacao] }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span class="status-badge"
+                    [class.pago]="transacao.statusPagamento === 'PAGO'"
+                    [class.pendente]="transacao.statusPagamento === 'PENDENTE'"
+                    [class.cancelado]="transacao.statusPagamento === 'CANCELADO'"
+                    [class.vencido]="transacao.statusPagamento === 'VENCIDO'"
+                  >
+                    {{ statusPagamentoDescricao[transacao.statusPagamento] }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span class="pagamento-badge"
+                    [class.avista]="transacao.tipoPagamento === 'A_VISTA'"
+                    [class.aprazo]="transacao.tipoPagamento === 'A_PRAZO'"
+                    [class.parcelado]="transacao.tipoPagamento === 'PARCELADO'"
+                  >
+                    {{ tipoPagamentoDescricao[transacao.tipoPagamento] }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <span class="itens-badge">
+                    {{ transacao.itens ? transacao.itens.length : 0 }}
+                  </span>
+                </td>
+                <td class="text-center">
+                  <div class="acoes-group">
+                    <button class="btn-acao edit" (click)="edit(transacao)" mdbRipple title="Editar">
+                      <i class="fas fa-pencil"></i>
+                    </button>
+                    <button class="btn-acao delete" (click)="excluirTransacao(transacao)" mdbRipple title="Excluir">
+                      <i class="fas fa-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              } @else {
+                <td class="text-center">
+                  <button class="btn-selecionar" (click)="selecionar(transacao)" mdbRipple>
+                    <i class="fas fa-check"></i> Selecionar
+                  </button>
+                </td>
+              }
+            </tr>
+          }
+
+          @if (lista.length === 0) {
+            <tr>
+              <td [attr.colspan]="modoModal ? 4 : 8">
+                <div class="empty-state">
+                  <i class="fas fa-inbox"></i>
+                  <p>Nenhuma transação encontrada</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 </div>

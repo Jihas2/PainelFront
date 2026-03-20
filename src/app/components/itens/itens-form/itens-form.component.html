@@ -1,31 +1,51 @@
-<div class="container">
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="modal-header">
-        <h5 class="modal-title">
-          {{ item.id ? "Editando Item" : "Novo Item" }}
-        </h5>
-        <button type="button" class="btn-close" (click)="close()"></button>
-      </div>
-      <div class="card">
-        <div class="card-body centre">
-          <form #formulario="ngForm" (ngSubmit)="save()">
-            <label mdbLabel class="form-label" for="descricao"
-              >Descrição do Item:</label
-            >
-            <input
-              required
-              [(ngModel)]="item.descricao"
-              mdbInput
-              type="text"
-              name="descricao"
-              class="form-control"
-            />
-            <br />
+<div class="item-modal-wrapper">
 
-            <label mdbLabel class="form-label" for="quantidade"
-              >Quantidade do Item:</label
-            >
+  <!-- Header -->
+  <div class="item-header">
+    <div class="header-left">
+      <div class="header-icon">
+        <i class="fas" [ngClass]="item.id ? 'fa-edit' : 'fa-plus'"></i>
+      </div>
+      <div>
+        <h5 class="header-title">{{ item.id ? 'Editando Item' : 'Novo Item' }}</h5>
+        <p class="header-subtitle">{{ item.id ? 'Atualize os dados do item' : 'Preencha os dados para cadastrar' }}</p>
+      </div>
+    </div>
+    <button type="button" class="btn-close-custom" (click)="close()">
+      <i class="fas fa-times"></i>
+    </button>
+  </div>
+
+  <!-- Body -->
+  <div class="item-body">
+    <form #formulario="ngForm" (ngSubmit)="save()" novalidate>
+
+      <!-- Seção: Dados do Item -->
+      <div class="form-section">
+        <div class="section-label">
+          <i class="fas fa-box"></i> Dados do Item
+        </div>
+
+        <div class="field-group full">
+          <label class="field-label">
+            <i class="fas fa-tag"></i> Descrição
+          </label>
+          <input
+            required
+            [(ngModel)]="item.descricao"
+            mdbInput
+            type="text"
+            name="descricao"
+            class="field-input"
+            placeholder="Ex: Produto, serviço, material..."
+          />
+        </div>
+
+        <div class="fields-row">
+          <div class="field-group grow">
+            <label class="field-label">
+              <i class="fas fa-cubes"></i> Quantidade
+            </label>
             <input
               required
               [(ngModel)]="item.quantidade"
@@ -33,131 +53,131 @@
               mdbInput
               type="number"
               name="quantidade"
-              class="form-control"
+              class="field-input"
+              placeholder="0"
+              min="0"
             />
-            <br />
+          </div>
 
-            <label mdbLabel class="form-label" for="valorUnitario"
-              >Valor Unitário do Item:</label
-            >
-            <div class="row">
-              <div class="col-md-12">
-                <input
-                  required
-                  [(ngModel)]="item.valorUnitario"
-                  (input)="calcularValorTotal()"
-                  mdbInput
-                  type="number"
-                  step="0.01"
-                  name="valorUnitario"
-                  class="form-control"
-                />
-              </div>
-            </div>
-            <div class="row mt-2">
-              <div class="col-md-6">
-                <small class="form-text text-muted">
-                  <strong>Em Reais:</strong> {{ item.valorUnitario | currency : 'BRL' }}
-                </small>
-              </div>
-              <div class="col-md-6">
-                <small class="form-text text-muted">
-                  <strong>Em Dólares:</strong> {{ (item.valorUnitario / taxaCambioAtual) | currency : 'USD' }}
-                </small>
-              </div>
-            </div>
-            <br />
+          <div class="field-group grow">
+            <label class="field-label">
+              <i class="fas fa-dollar-sign"></i> Valor Unitário (R$)
+            </label>
+            <input
+              required
+              [(ngModel)]="item.valorUnitario"
+              (input)="calcularValorTotal()"
+              mdbInput
+              type="number"
+              step="0.01"
+              name="valorUnitario"
+              class="field-input"
+              placeholder="0.00"
+              min="0"
+            />
+          </div>
+        </div>
 
-            <!-- Valor Total Calculado -->
-            <div class="alert alert-info">
-              <div class="row">
-                <div class="col-md-12 mb-2">
-                  <strong>Valor Total (Quantidade × Valor Unitário):</strong>
-                </div>
-                <div class="col-md-6">
-                  <div class="h5 mb-0">{{ valorTotalCalculado | currency : 'BRL' }}</div>
-                  <small class="text-muted">Em Reais</small>
-                </div>
-                <div class="col-md-6">
-                  <div class="h5 mb-0">{{ (valorTotalCalculado / taxaCambioAtual) | currency : 'USD' }}</div>
-                  <small class="text-muted">Em Dólares</small>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-12">
-              <br />
-              <div class="input-group mb-3">
-                @if(item.transacao){
-                <div class="border w-100 p-2 text-primary">
-                  {{ item.transacao.id }}
-                </div>
-                <button
-                  (click)="buscarTransacoes()"
-                  class="btn btn-secondary"
-                  type="button"
-                  mdbRipple
-                  rippleColor="danger"
-                >
-                  Trocar Transação
-                </button>
-                }@else{
-                <div class="border w-100 p-2">
-                  Nenhuma Transação selecionada!
-                </div>
-                <button
-                  (click)="buscarTransacoes()"
-                  class="btn btn-secondary"
-                  type="button"
-                  mdbRipple
-                >
-                  Buscar Transações
-                </button>
-                }
-              </div>
-              <br />
-            </div>
-
-            @if(item.id > 0){
-            <button
-              type="submit"
-              [disabled]="!formulario.valid"
-              class="btn btn-success btn-rounded"
-            >
-              <i class="fas fa-save fa-sm"></i> Atualizar
-            </button>
-            }@else {
-            <button
-              type="submit"
-              [disabled]="!formulario.valid"
-              class="btn btn-success btn-rounded"
-            >
-              <i class="fas fa-save fa-sm"></i> Salvar
-            </button>
-            }
-            <button
-              type="button"
-              class="btn btn-danger btn-rounded m-1"
-              (click)="close()"
-            >
-              <i class="fa-solid fa-xmark"></i> Cancelar
-            </button>
-          </form>
+        <!-- Preview unitário -->
+        <div class="conversao-preview">
+          <div class="conversao-item">
+            <span class="conversao-label">Unitário em Reais</span>
+            <span class="conversao-valor">{{ item.valorUnitario | currency:'BRL' }}</span>
+          </div>
+          <div class="conversao-divider"></div>
+          <div class="conversao-item">
+            <span class="conversao-label">Unitário em Dólares</span>
+            <span class="conversao-valor">{{ (item.valorUnitario / taxaCambioAtual) | currency:'USD' }}</span>
+          </div>
         </div>
       </div>
-    </div>
+
+      <!-- Seção: Valor Total -->
+      <div class="form-section">
+        <div class="section-label">
+          <i class="fas fa-calculator"></i> Valor Total
+        </div>
+
+        <div class="total-box">
+          <div class="total-formula">
+            <span class="formula-text">
+              <i class="fas fa-cubes"></i> {{ item.quantidade || 0 }}
+              <span class="formula-op">×</span>
+              <i class="fas fa-dollar-sign"></i> {{ item.valorUnitario | currency:'BRL' }}
+            </span>
+          </div>
+          <div class="total-valores">
+            <div class="total-item">
+              <span class="total-label">Em Reais</span>
+              <span class="total-valor brl">{{ valorTotalCalculado | currency:'BRL' }}</span>
+            </div>
+            <div class="total-divider"></div>
+            <div class="total-item">
+              <span class="total-label">Em Dólares</span>
+              <span class="total-valor usd">{{ (valorTotalCalculado / taxaCambioAtual) | currency:'USD' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seção: Transação -->
+      <div class="form-section">
+        <div class="section-label">
+          <i class="fas fa-link"></i> Transação Vinculada
+        </div>
+
+        <div class="transacao-box" [class.has-transacao]="item.transacao">
+          <div class="transacao-info">
+            <div class="transacao-icon">
+              <i class="fas" [ngClass]="item.transacao ? 'fa-check-circle' : 'fa-unlink'"></i>
+            </div>
+            <div class="transacao-texto">
+              <span class="transacao-label" *ngIf="item.transacao">
+                Transação #{{ item.transacao.id }} vinculada
+              </span>
+              <span class="transacao-label sem-transacao" *ngIf="!item.transacao">
+                Nenhuma transação selecionada
+              </span>
+              <span class="transacao-desc" *ngIf="item.transacao">
+                Clique em "Trocar" para alterar o vínculo
+              </span>
+              <span class="transacao-desc" *ngIf="!item.transacao">
+                Opcional — vincule este item a uma transação
+              </span>
+            </div>
+          </div>
+          <button
+            (click)="buscarTransacoes()"
+            class="btn-transacao"
+            type="button"
+            mdbRipple
+          >
+            <i class="fas" [ngClass]="item.transacao ? 'fa-exchange-alt' : 'fa-search'"></i>
+            {{ item.transacao ? 'Trocar' : 'Buscar' }}
+          </button>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div class="item-footer">
+        <button type="button" class="btn-cancelar" (click)="close()">
+          <i class="fa-solid fa-xmark"></i> Cancelar
+        </button>
+        <button type="submit" [disabled]="!formulario.valid" class="btn-salvar">
+          <i class="fas fa-save"></i> {{ item.id ? 'Atualizar' : 'Salvar' }}
+        </button>
+      </div>
+
+    </form>
   </div>
+
 </div>
 
+<!-- Template do modal de transações -->
 <ng-template #modalTransacoesList>
   <div class="modal-header">
-    <h5 class="modal-title">Listagem de Transações</h5>
-    <button
-      type="button"
-      class="btn-close"
-      aria-label="Close"
-      (click)="childModalRef.close()"
-    ></button>
+    <h5 class="modal-title">Menu de Transações</h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="childModalRef.close()"></button>
   </div>
   <div class="modal-body">
     <app-transacoes-list
