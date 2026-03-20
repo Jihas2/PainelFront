@@ -1,115 +1,151 @@
-<br />
-<div class="container">
-  <div class="row">
-    <div class="col-4"></div>
+<div class="cadastro-wrapper">
+  <div class="cadastro-container">
 
-    <div class="col-4">
-      <div class="card">
-        <div class="card-body centre">
-          <h3>Cadastro de usuário</h3>
-          <br />
-
-          <form #formulario="ngForm" (ngSubmit)="save()">
-            <mdb-form-control>
-              <input
-                mdbInput
-                required
-                type="text"
-                name="nome-usuario"
-                class="form-control"
-                [(ngModel)]="usuario.nome"
-                #nomeInput="ngModel"
-              />
-              <label mdbLabel class="form-label" for="nome-usuario">Nome:</label>
-              <small class="text-danger" *ngIf="nomeInput.invalid && nomeInput.touched">
-                Nome é obrigatório
-              </small>
-            </mdb-form-control>
-
-            <br />
-            <mdb-form-control>
-              <input
-                mdbInput
-                required
-                type="email"
-                name="email"
-                class="form-control"
-                [(ngModel)]="usuario.email"
-                #emailInput="ngModel"
-                email
-              />
-              <label mdbLabel class="form-label" for="email">Email:</label>
-              <small class="text-danger" *ngIf="emailInput.invalid && emailInput.touched">
-                <span *ngIf="emailInput.errors?.['required']">Email é obrigatório</span>
-                <span *ngIf="emailInput.errors?.['email']">Email inválido</span>
-              </small>
-            </mdb-form-control>
-
-            <br />
-            <mdb-form-control>
-              <input
-                mdbInput
-                required
-                type="password"
-                name="senha"
-                class="form-control"
-                [(ngModel)]="senha"
-                minlength="5"
-                #senhaInput="ngModel"
-              />
-              <label mdbLabel class="form-label" for="senha">Senha:</label>
-              <small class="text-danger" *ngIf="senhaInput.invalid && senhaInput.touched">
-                <span *ngIf="senhaInput.errors?.['required']">Senha é obrigatória</span>
-                <span *ngIf="senhaInput.errors?.['minlength']">Senha deve ter no mínimo 5 caracteres</span>
-              </small>
-            </mdb-form-control>
-
-            <br />
-            <div class="mb-3">
-              <label mdbLabel class="form-label" for="tipoUsuario">Tipo de Usuário</label>
-              <select
-                id="tipoUsuario"
-                class="form-select"
-                name="tipoUsuario"
-                [(ngModel)]="usuario.tipoUsuario"
-                required
-                #tipoInput="ngModel"
-              >
-                <option [ngValue]="undefined" disabled>Selecione um tipo</option>
-                <option *ngFor="let tipo of tipoUsuarioList" [ngValue]="tipo.value">
-                  {{ tipo.label }}
-                </option>
-              </select>
-              <small class="text-danger" *ngIf="tipoInput.invalid && tipoInput.touched">
-                Tipo de usuário é obrigatório
-              </small>
-            </div>
-
-            <br />
-            <div class="row mb-4">
-              <div class="col d-flex justify-content-center">
-                <div>
-                  <button
-                    type="submit"
-                    [disabled]="!formulario.valid"
-                    class="btn btn-success btn-rounded"
-                  >
-                    <i class="fas fa-save fa-sm"></i> Salvar
-                  </button>
-                </div>
-              </div>
-
-              <div class="col" *ngIf="!isPagCadastro">
-                <a class="btn btn-primary btn-rounded" href="/login">
-                  <i class="fa-solid fa-rotate-left"></i> Voltar ao Login
-                </a>
-              </div>
-            </div>
-          </form>
+    <div class="cadastro-side">
+      <div class="side-content">
+        <div class="side-logo">
+          <i class="fas fa-users-cog"></i>
+        </div>
+        <h2>Gestão de Usuários</h2>
+        <p>Cadastre novos usuários e defina suas permissões de acesso ao sistema.</p>
+        <div class="side-features">
+          <div class="feature-item">
+            <i class="fas fa-shield-alt"></i>
+            <span>Acesso seguro e controlado</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-user-tag"></i>
+            <span>Perfis personalizados</span>
+          </div>
+          <div class="feature-item">
+            <i class="fas fa-lock"></i>
+            <span>Senha criptografada</span>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="col-4"></div>
+    <div class="cadastro-form-side">
+      <div class="form-header">
+        <div class="form-icon">
+          <i class="fas fa-user-plus"></i>
+        </div>
+        <h3>Novo Usuário</h3>
+        <p>Preencha os dados abaixo para criar o acesso</p>
+      </div>
+
+      <form #formulario="ngForm" (ngSubmit)="save()" class="form-body">
+
+        <div class="field-group">
+          <label class="field-label">
+            <i class="fas fa-user"></i> Nome completo
+          </label>
+          <input
+            mdbInput
+            required
+            type="text"
+            name="nome-usuario"
+            class="field-input"
+            placeholder="Digite o nome completo"
+            [(ngModel)]="usuario.nome"
+            #nomeInput="ngModel"
+          />
+          <small class="field-error" *ngIf="nomeInput.invalid && nomeInput.touched">
+            <i class="fas fa-exclamation-circle"></i> Nome é obrigatório
+          </small>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            <i class="fas fa-envelope"></i> Email
+          </label>
+          <input
+            mdbInput
+            required
+            type="email"
+            name="email"
+            class="field-input"
+            placeholder="email@exemplo.com"
+            [(ngModel)]="usuario.email"
+            #emailInput="ngModel"
+            email
+          />
+          <small class="field-error" *ngIf="emailInput.invalid && emailInput.touched">
+            <i class="fas fa-exclamation-circle"></i>
+            <span *ngIf="emailInput.errors?.['required']">Email é obrigatório</span>
+            <span *ngIf="emailInput.errors?.['email']">Email inválido</span>
+          </small>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">
+            <i class="fas fa-lock"></i> Senha
+          </label>
+          <input
+            mdbInput
+            required
+            type="password"
+            name="senha"
+            class="field-input"
+            placeholder="Mínimo 5 caracteres"
+            [(ngModel)]="senha"
+            minlength="5"
+            #senhaInput="ngModel"
+          />
+          <small class="field-error" *ngIf="senhaInput.invalid && senhaInput.touched">
+            <i class="fas fa-exclamation-circle"></i>
+            <span *ngIf="senhaInput.errors?.['required']">Senha é obrigatória</span>
+            <span *ngIf="senhaInput.errors?.['minlength']">Mínimo 5 caracteres</span>
+          </small>
+        </div>
+
+        <!-- Dropdown customizado -->
+        <div class="field-group">
+          <label class="field-label">
+            <i class="fas fa-id-badge"></i> Tipo de Usuário
+          </label>
+          <div class="custom-select-wrapper" [class.open]="dropdownOpen">
+            <div class="custom-select-trigger" (click)="toggleDropdown()">
+              <span class="select-value">
+                <i [class]="getSelectedIcon()"></i>
+                {{ getSelectedLabel() }}
+              </span>
+              <i class="fas fa-chevron-down select-arrow"></i>
+            </div>
+            <div class="custom-select-options" *ngIf="dropdownOpen">
+              <div
+                class="custom-option"
+                *ngFor="let tipo of tipoUsuarioList"
+                [class.selected]="usuario.tipoUsuario === tipo.value"
+                (click)="selectTipo(tipo)"
+              >
+                <i [class]="tipo.icon"></i>
+                <div class="option-info">
+                  <span class="option-label">{{ tipo.label }}</span>
+                  <span class="option-desc">{{ tipo.desc }}</span>
+                </div>
+                <i class="fas fa-check check-icon" *ngIf="usuario.tipoUsuario === tipo.value"></i>
+              </div>
+            </div>
+          </div>
+          <input type="hidden" name="tipoUsuario" [(ngModel)]="usuario.tipoUsuario" required />
+        </div>
+
+        <div class="form-actions">
+          <button
+            type="submit"
+            [disabled]="!formulario.valid"
+            class="btn-salvar"
+          >
+            <i class="fas fa-save me-2"></i> Cadastrar Usuário
+          </button>
+          <a routerLink="/login" class="btn-voltar" *ngIf="!isPagCadastro">
+            <i class="fas fa-arrow-left me-2"></i> Voltar ao Login
+          </a>
+        </div>
+
+      </form>
+    </div>
+
   </div>
 </div>
