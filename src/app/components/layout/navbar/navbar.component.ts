@@ -14,11 +14,14 @@ import { Router } from '@angular/router';
 export class NavbarComponent {
   authService = inject(AuthService);
   router = inject(Router);
-  
+
   dropdownAberto = false;
 
+  isActive(rota: string): boolean {
+    return this.router.url.includes(rota);
+  }
+
   isDemandante(): boolean {
-    const user = this.authService.getUsuarioLogado();
     return this.authService.hasRole('DEMANDANTE');
   }
 
@@ -44,7 +47,7 @@ export class NavbarComponent {
   getIniciais(): string {
     const usuario = this.getUsuario();
     if (!usuario || !usuario.nome) return 'U';
-    
+
     const nomes = usuario.nome.trim().split(' ');
     if (nomes.length === 1) {
       return nomes[0].charAt(0).toUpperCase();

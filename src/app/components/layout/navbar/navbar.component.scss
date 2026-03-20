@@ -12,7 +12,7 @@
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
   border: 2px solid rgba(255, 255, 255, 0.3);
-  
+
   &:hover {
     transform: scale(1.05);
     border-color: rgba(255, 255, 255, 0.6);
@@ -154,9 +154,7 @@
     background-color: #f8f9fa;
     color: #0d6efd;
 
-    i {
-      color: #0d6efd;
-    }
+    i { color: #0d6efd; }
   }
 
   &:active {
@@ -180,7 +178,14 @@
   }
 }
 
-// Responsivo
+// Link ativo na navbar
+.active-link {
+  font-weight: 700 !important;
+  border-bottom: 2px solid #fff;
+  padding-bottom: 2px;
+  opacity: 1 !important;
+}
+
 @media (max-width: 768px) {
   .profile-dropdown {
     min-width: 260px;
@@ -202,12 +207,7 @@
   }
 
   .user-details {
-    strong {
-      font-size: 14px;
-    }
-
-    small {
-      font-size: 11px;
-    }
+    strong { font-size: 14px; }
+    small { font-size: 11px; }
   }
 }

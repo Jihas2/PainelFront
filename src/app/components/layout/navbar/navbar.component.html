@@ -10,35 +10,38 @@
     >
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
-          <a class="nav-link" href="principal/itens">Itens</a>
+          <a class="nav-link" href="principal/itens"
+            [class.active-link]="isActive('itens')">Itens</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="principal/transacoes">Transações</a>
+          <a class="nav-link" href="principal/transacoes"
+            [class.active-link]="isActive('transacoes')">Transações</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="principal/extratos">Extratos</a>
+          <a class="nav-link" href="principal/extratos"
+            [class.active-link]="isActive('extratos')">Extratos</a>
         </li>
         <li class="nav-item" *ngIf="isDemandante()">
-          <a class="nav-link" href="principal/usuarios/new">Cadastrar Usuario</a>
+          <a class="nav-link" href="principal/usuarios/new"
+            [class.active-link]="isActive('usuarios')">Cadastrar Usuario</a>
         </li>
         <li class="nav-item" *ngIf="isDemandante()">
-          <a class="nav-link" href="principal/cadastros">Cadastros</a>
+          <a class="nav-link" href="principal/cadastros"
+            [class.active-link]="isActive('cadastros')">Cadastros</a>
         </li>
       </ul>
       <ul class="navbar-nav d-flex align-items-center">
-        <!-- Profile-->
         <li class="nav-item position-relative">
-          <!-- Avatar clicável -->
-          <div 
-            class="user-avatar" 
+          <div
+            class="user-avatar"
             (click)="toggleDropdown()"
             [class.active]="dropdownAberto"
           >
             {{ getIniciais() }}
           </div>
 
-          <div 
-            class="profile-dropdown" 
+          <div
+            class="profile-dropdown"
             [class.show]="dropdownAberto"
             (click)="$event.stopPropagation()"
           >
@@ -50,9 +53,9 @@
                 <div class="user-details">
                   <strong>{{ getNomeUsuario() }}</strong>
                   <small>{{ getEmailUsuario() }}</small>
-                  <span 
-                    class="badge" 
-                    [class.badge-primary]="isDemandante()" 
+                  <span
+                    class="badge"
+                    [class.badge-primary]="isDemandante()"
                     [class.badge-info]="!isDemandante()"
                   >
                     {{ getTipoUsuario() }}
@@ -63,15 +66,14 @@
 
             <hr class="dropdown-divider-custom" />
 
-            <!-- Opção de sair -->
             <div class="dropdown-item-custom" (click)="sair()">
               <i class="fas fa-sign-out-alt me-2"></i>
               Sair
             </div>
           </div>
-          <div 
-            class="dropdown-overlay" 
-            *ngIf="dropdownAberto" 
+          <div
+            class="dropdown-overlay"
+            *ngIf="dropdownAberto"
             (click)="fecharDropdown()"
           ></div>
         </li>
