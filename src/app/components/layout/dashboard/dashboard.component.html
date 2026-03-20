@@ -1,187 +1,139 @@
 <div class="container mt-4">
-  <h2 class="mb-4 text-center">Dashboard Financeiro</h2>
+  <h2 class="mb-4 text-center dash-titulo">
+    <i class="fas fa-chart-line"></i> Dashboard Financeiro
+  </h2>
 
-  <div class="row mb-4 align-items-end">
-    <div class="col-md-3">
+  <!-- Filtros -->
+  <div class="filtros-bar mb-4">
+    <div class="filtro-grupo">
       <mdb-form-control>
-        <input
-          mdbInput
-          type="number"
-          [(ngModel)]="anoAtual"
-          class="form-control"
-          id="anoInput"
-          placeholder="Exemplo: '2025'"
-        />
+        <input mdbInput type="number" [(ngModel)]="anoAtual" class="form-control" id="anoInput" placeholder="Exemplo: '2025'" />
         <label mdbLabel class="form-label" for="anoInput">Ano</label>
       </mdb-form-control>
     </div>
-
-    <div class="col-md-3">
+    <div class="filtro-grupo">
       <mdb-form-control>
-        <input
-          mdbInput
-          type="number"
-          [(ngModel)]="mesAtual"
-          class="form-control"
-          id="mesInput"
-          placeholder="(1-12)"
-        />
+        <input mdbInput type="number" [(ngModel)]="mesAtual" class="form-control" id="mesInput" placeholder="(1-12)" />
         <label mdbLabel class="form-label" for="mesInput">Mês</label>
       </mdb-form-control>
     </div>
-
-    <div class="col-md-6 d-flex gap-2">
-      <button
-        type="button"
-        class="btn btn-primary"
-        mdbRipple
-        (click)="carregarDashboardMes(anoAtual, mesAtual)"
-      >
-        Consultar Mês
+    <div class="filtro-btns">
+      <button type="button" class="btn-dash" mdbRipple (click)="carregarDashboardMes(anoAtual, mesAtual)">
+        <i class="fas fa-calendar-day"></i> Consultar Mês
       </button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        mdbRipple
-        (click)="carregarDashboardAno(anoAtual)"
-      >
-        Consultar Ano
+      <button type="button" class="btn-dash" mdbRipple (click)="carregarDashboardAno(anoAtual)">
+        <i class="fas fa-calendar-alt"></i> Consultar Ano
       </button>
-      <button
-        type="button"
-        class="btn btn-primary"
-        mdbRipple
-        (click)="carregarDashboardAtual()"
-      >
-        Atual
+      <button type="button" class="btn-dash ativo" mdbRipple (click)="carregarDashboardAtual()">
+        <i class="fas fa-sync-alt"></i> Atual
       </button>
     </div>
   </div>
 
-  <div
-    *ngIf="
-      dashboardData &&
-      (dashboardData.totalCreditosMes || dashboardData.totalCreditosAno)
-    "
-  >
-    <div class="card shadow-sm">
+  <div *ngIf="dashboardData && (dashboardData.totalCreditosMes || dashboardData.totalCreditosAno)">
+
+    <!-- Card principal: lista + rosca -->
+    <div class="card resumo-card shadow-sm mb-4">
       <div class="card-body">
         <h5 class="card-title mb-4 text-center">Resumo Financeiro</h5>
-
         <div class="row align-items-center">
-          
+
           <div class="col-lg-6 col-md-6 mb-4 mb-md-0">
             <ul class="list-group list-group-flush">
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.totalPagamentosMes !== undefined"
-              >
-                <span>Pagamentos no mês:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.totalPagamentosMes !== undefined">
+                <span class="item-label"><i class="fas fa-file-invoice-dollar"></i> Pagamentos no mês</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.totalPagamentosMes | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.totalPagamentosMes / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block">{{ dashboardData.totalPagamentosMes | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.totalPagamentosMes / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.totalDebitosPrazoMes !== undefined"
-              >
-                <span>Débitos a prazo no mês:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.totalDebitosPrazoMes !== undefined">
+                <span class="item-label"><i class="fas fa-calendar-times"></i> Débitos a prazo no mês</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.totalDebitosPrazoMes | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.totalDebitosPrazoMes / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block">{{ dashboardData.totalDebitosPrazoMes | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.totalDebitosPrazoMes / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.totalCreditosMes !== undefined"
-              >
-                <span>Créditos no mês:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.totalCreditosMes !== undefined">
+                <span class="item-label"><i class="fas fa-arrow-up"></i> Créditos no mês</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.totalCreditosMes | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.totalCreditosMes / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block verde">{{ dashboardData.totalCreditosMes | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.totalCreditosMes / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.totalDebitosMes !== undefined"
-              >
-                <span>Débitos no mês:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.totalDebitosMes !== undefined">
+                <span class="item-label"><i class="fas fa-arrow-down"></i> Débitos no mês</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.totalDebitosMes | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.totalDebitosMes / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block vermelho">{{ dashboardData.totalDebitosMes | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.totalDebitosMes / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.saldoMes !== undefined"
-              >
-                <span>Saldo do mês:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.saldoMes !== undefined">
+                <span class="item-label"><i class="fas fa-wallet"></i> Saldo do mês</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.saldoMes | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.saldoMes / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block" [class.verde]="dashboardData.saldoMes >= 0" [class.vermelho]="dashboardData.saldoMes < 0">{{ dashboardData.saldoMes | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.saldoMes / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.totalCreditosAno !== undefined"
-              >
-                <span>Créditos no ano:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.totalCreditosAno !== undefined">
+                <span class="item-label"><i class="fas fa-arrow-up"></i> Créditos no ano</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.totalCreditosAno | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.totalCreditosAno / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block verde">{{ dashboardData.totalCreditosAno | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.totalCreditosAno / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.totalDebitosAno !== undefined"
-              >
-                <span>Débitos no ano:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.totalDebitosAno !== undefined">
+                <span class="item-label"><i class="fas fa-arrow-down"></i> Débitos no ano</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.totalDebitosAno | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.totalDebitosAno / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block vermelho">{{ dashboardData.totalDebitosAno | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.totalDebitosAno / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.saldoAno !== undefined"
-              >
-                <span>Saldo do ano:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start" *ngIf="dashboardData.saldoAno !== undefined">
+                <span class="item-label"><i class="fas fa-chart-area"></i> Saldo do ano</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.saldoAno | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.saldoAno / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block" [class.verde]="dashboardData.saldoAno >= 0" [class.vermelho]="dashboardData.saldoAno < 0">{{ dashboardData.saldoAno | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.saldoAno / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
-              <li
-                class="list-group-item d-flex justify-content-between align-items-start"
-                *ngIf="dashboardData.saldoAcumulado !== undefined"
-              >
-                <span>Saldo acumulado:</span>
+              <li class="list-group-item d-flex justify-content-between align-items-start acumulado-item" *ngIf="dashboardData.saldoAcumulado !== undefined">
+                <span class="item-label"><i class="fas fa-piggy-bank"></i> Saldo acumulado</span>
                 <div class="text-end">
-                  <strong class="d-block">{{ dashboardData.saldoAcumulado | currency : "BRL" }}</strong>
-                  <small class="text-muted">{{ (dashboardData.saldoAcumulado / taxaCambioAtual) | currency : "USD" }}</small>
+                  <strong class="d-block azul">{{ dashboardData.saldoAcumulado | currency:"BRL" }}</strong>
+                  <small class="text-muted">{{ (dashboardData.saldoAcumulado / taxaCambioAtual) | currency:"USD" }}</small>
                 </div>
               </li>
             </ul>
           </div>
 
-          
           <div class="col-lg-6 col-md-6 text-center">
-            <div
-              class="chart-container mx-auto"
-              style="max-width: 300px; height: 300px;"
-            >
+            <div class="chart-container mx-auto" style="max-width: 300px; height: 300px;">
               <canvas id="dashboardChart"></canvas>
             </div>
           </div>
         </div>
       </div>
     </div>
+
+    <!-- Card secundário: gráfico de barras -->
+    <div class="card resumo-card shadow-sm mb-4">
+      <div class="card-body">
+        <h5 class="card-title mb-1 text-center">
+          <i class="fas fa-chart-bar"></i> Comparativo Financeiro
+        </h5>
+        <p class="card-subtitle text-center">Visão comparativa de todos os valores do período</p>
+        <div class="bar-chart-container">
+          <canvas id="barChart"></canvas>
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <div *ngIf="!dashboardData || getKeys(dashboardData).length === 0">
-    <p class="text-muted text-center">
-      Nenhum dado disponível. Escolha um filtro acima.
-    </p>
+    <div class="empty-dash">
+      <i class="fas fa-chart-line"></i>
+      <p>Nenhum dado disponível. Escolha um filtro acima.</p>
+    </div>
   </div>
 </div>
