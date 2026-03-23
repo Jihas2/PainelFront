@@ -173,13 +173,23 @@
 
 </div>
 
-<!-- Template do modal de transações -->
+<!-- Template do modal de transações - header profissionalizado -->
 <ng-template #modalTransacoesList>
-  <div class="modal-header">
-    <h5 class="modal-title">Menu de Transações</h5>
-    <button type="button" class="btn-close" aria-label="Close" (click)="childModalRef.close()"></button>
+  <div class="transacoes-modal-header">
+    <div class="transacoes-modal-header-left">
+      <div class="transacoes-modal-icon">
+        <i class="fas fa-exchange-alt"></i>
+      </div>
+      <div>
+        <h5 class="transacoes-modal-title">Selecionar Transação</h5>
+        <p class="transacoes-modal-subtitle">Escolha a transação para vincular ao item</p>
+      </div>
+    </div>
+    <button type="button" class="transacoes-modal-close" (click)="childModalRef.close()">
+      <i class="fas fa-times"></i>
+    </button>
   </div>
-  <div class="modal-body">
+  <div class="transacoes-modal-body">
     <app-transacoes-list
       [modoModal]="true"
       (meuEvento)="meuEventoTratamento($event)"

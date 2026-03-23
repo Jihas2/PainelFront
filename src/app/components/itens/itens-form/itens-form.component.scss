@@ -301,14 +301,13 @@ $muted: #8d99ae;
   justify-content: center;
   font-size: 1rem;
   flex-shrink: 0;
+  background: rgba(0, 0, 0, 0.05);
+  color: $muted;
 
   .has-transacao & {
     background: rgba(67, 97, 238, 0.12);
     color: $primary;
   }
-
-  background: rgba(0, 0, 0, 0.05);
-  color: $muted;
 }
 
 .transacao-texto {
@@ -329,10 +328,7 @@ $muted: #8d99ae;
   &.sem-transacao { color: $muted; }
 }
 
-.transacao-desc {
-  font-size: 0.72rem;
-  color: $muted;
-}
+.transacao-desc { font-size: 0.72rem; color: $muted; }
 
 .btn-transacao {
   padding: 8px 18px;
@@ -350,11 +346,7 @@ $muted: #8d99ae;
   box-shadow: 0 3px 10px rgba(67, 97, 238, 0.25);
   transition: all 0.2s ease;
 
-  &:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 5px 14px rgba(67, 97, 238, 0.35);
-  }
-
+  &:hover { transform: translateY(-1px); box-shadow: 0 5px 14px rgba(67, 97, 238, 0.35); }
   i { font-size: 0.78rem; }
 }
 
@@ -398,12 +390,75 @@ $muted: #8d99ae;
   box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
   transition: all 0.2s ease;
 
-  &:hover:not(:disabled) {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
-  }
-
+  &:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4); }
   &:disabled { opacity: 0.55; cursor: not-allowed; transform: none; box-shadow: none; }
+}
+
+// ── Modal de Transações (header profissional) ─────────────
+.transacoes-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 28px;
+  background: linear-gradient(135deg, $primary 0%, $primary-dark 100%);
+}
+
+.transacoes-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.transacoes-modal-icon {
+  width: 42px;
+  height: 42px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: #fff;
+  flex-shrink: 0;
+}
+
+.transacoes-modal-title {
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  margin: 0 0 2px 0;
+  letter-spacing: 0.2px;
+}
+
+.transacoes-modal-subtitle {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 0.76rem;
+  margin: 0;
+}
+
+.transacoes-modal-close {
+  background: rgba(255, 255, 255, 0.15);
+  border: 1.5px solid rgba(255, 255, 255, 0.25);
+  border-radius: 8px;
+  color: #fff;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 0.9rem;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.28);
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+.transacoes-modal-body {
+  background: transparent;
+  padding: 0;
 }
 
 // ── Dark Mode ─────────────────────────────────────────────
