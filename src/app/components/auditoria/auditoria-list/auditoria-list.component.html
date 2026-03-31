@@ -1,0 +1,172 @@
+<div class="auditoria-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h3 class="page-title">
+      <i class="fas fa-shield-alt"></i> Log de Auditoria
+    </h3>
+    <button class="btn-refresh" (click)="carregarLogs()" mdbRipple>
+      <i class="fas fa-sync-alt"></i> Atualizar
+    </button>
+  </div>
+
+  <!-- Filtros -->
+  <div class="filters-bar">
+    <div class="filter-input-wrapper">
+      <i class="fas fa-search filter-icon"></i>
+      <input
+        [(ngModel)]="filtro.pesquisa"
+        (input)="aplicarFiltro()"
+        type="text"
+        class="filter-input"
+        placeholder="Pesquisar por executor, alvo ou detalhes..."
+      />
+    </div>
+
+    <!-- Dropdown tipo de ação -->
+    <div class="filter-custom-select" [class.open]="dropdownAcaoOpen">
+      <div class="filter-select-trigger" (click)="dropdownAcaoOpen = !dropdownAcaoOpen">
+        <span>{{ getAcaoLabel() }}</span>
+        <i class="fas fa-chevron-down filter-select-arrow"></i>
+      </div>
+      <div class="filter-select-options" *ngIf="dropdownAcaoOpen">
+        <div class="filter-select-option" [class.selected]="filtro.acao === ''" (click)="selecionarAcao('')">
+          <i class="fas fa-list"></i> Todas as ações
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'LOGIN_SUCESSO'" (click)="selecionarAcao('LOGIN_SUCESSO')">
+          <i class="fas fa-sign-in-alt"></i> Login Sucesso
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'LOGIN_FALHA'" (click)="selecionarAcao('LOGIN_FALHA')">
+          <i class="fas fa-times-circle"></i> Login Falha
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'LOGIN_BLOQUEADO'" (click)="selecionarAcao('LOGIN_BLOQUEADO')">
+          <i class="fas fa-ban"></i> Login Bloqueado
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'CADASTRO'" (click)="selecionarAcao('CADASTRO')">
+          <i class="fas fa-user-plus"></i> Cadastro
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'ALTERACAO_SENHA'" (click)="selecionarAcao('ALTERACAO_SENHA')">
+          <i class="fas fa-key"></i> Alteração de Senha
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'ALTERACAO_EMAIL'" (click)="selecionarAcao('ALTERACAO_EMAIL')">
+          <i class="fas fa-envelope"></i> Alteração de Email
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'ALTERACAO_TIPO'" (click)="selecionarAcao('ALTERACAO_TIPO')">
+          <i class="fas fa-user-tag"></i> Alteração de Tipo
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'DESATIVACAO'" (click)="selecionarAcao('DESATIVACAO')">
+          <i class="fas fa-user-slash"></i> Desativação
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'REATIVACAO'" (click)="selecionarAcao('REATIVACAO')">
+          <i class="fas fa-user-check"></i> Reativação
+        </div>
+        <div class="filter-select-option" [class.selected]="filtro.acao === 'EXCLUSAO'" (click)="selecionarAcao('EXCLUSAO')">
+          <i class="fas fa-trash"></i> Exclusão
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-limpar" (click)="limparFiltros()" mdbRipple>
+      <i class="fas fa-times"></i> Limpar
+    </button>
+  </div>
+
+  <!-- Totalizador -->
+  <div class="totais-bar">
+    <div class="total-item">
+      <i class="fas fa-list-alt"></i>
+      <span class="total-label">Total de Registros:</span>
+      <span class="total-valor">{{ listaFiltrada.length }}</span>
+    </div>
+    <div class="total-divider"></div>
+    <div class="total-item">
+      <i class="fas fa-exclamation-triangle"></i>
+      <span class="total-label">Falhas de Login:</span>
+      <span class="total-valor vermelho">{{ contarAcao('LOGIN_FALHA') }}</span>
+    </div>
+    <div class="total-divider"></div>
+    <div class="total-item">
+      <i class="fas fa-ban"></i>
+      <span class="total-label">Contas Bloqueadas:</span>
+      <span class="total-valor vermelho">{{ contarAcao('LOGIN_BLOQUEADO') }}</span>
+    </div>
+  </div>
+
+  <!-- Tabela -->
+  <div class="table-wrapper">
+    <div class="table-responsive">
+      <table class="auditoria-table">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th class="text-center">Ação</th>
+            <th>Executor</th>
+            <th>Alvo</th>
+            <th>Detalhes</th>
+            <th>Anterior → Novo</th>
+            <th>Data/Hora</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (log of listaFiltrada; track $index) {
+            <tr>
+              <td><span class="id-badge">{{ log.id }}</span></td>
+              <td class="text-center">
+                <span class="acao-badge" [ngClass]="getAcaoClass(log.acao)">
+                  <i class="fas" [ngClass]="getAcaoIcon(log.acao)"></i>
+                  {{ formatarAcao(log.acao) }}
+                </span>
+              </td>
+              <td>
+                <div class="usuario-cell" *ngIf="log.usuarioExecutorNome">
+                  <div class="usuario-avatar">{{ log.usuarioExecutorNome.charAt(0).toUpperCase() }}</div>
+                  <div class="usuario-info">
+                    <span class="usuario-nome">{{ log.usuarioExecutorNome }}</span>
+                    <span class="usuario-id" *ngIf="log.usuarioExecutorId">ID: {{ log.usuarioExecutorId }}</span>
+                  </div>
+                </div>
+                <span class="sem-dado" *ngIf="!log.usuarioExecutorNome">—</span>
+              </td>
+              <td>
+                <div class="usuario-cell" *ngIf="log.usuarioAlvoNome">
+                  <div class="usuario-avatar alvo">{{ log.usuarioAlvoNome.charAt(0).toUpperCase() }}</div>
+                  <div class="usuario-info">
+                    <span class="usuario-nome">{{ log.usuarioAlvoNome }}</span>
+                    <span class="usuario-id" *ngIf="log.usuarioAlvoId">ID: {{ log.usuarioAlvoId }}</span>
+                  </div>
+                </div>
+                <span class="sem-dado" *ngIf="!log.usuarioAlvoNome">—</span>
+              </td>
+              <td>
+                <span class="detalhes-text">{{ log.detalhes || '—' }}</span>
+              </td>
+              <td>
+                <div class="diff-cell" *ngIf="log.valorAnterior || log.valorNovo">
+                  <span class="valor-anterior" *ngIf="log.valorAnterior">{{ log.valorAnterior }}</span>
+                  <i class="fas fa-arrow-right diff-arrow" *ngIf="log.valorAnterior && log.valorNovo"></i>
+                  <span class="valor-novo" *ngIf="log.valorNovo">{{ log.valorNovo }}</span>
+                </div>
+                <span class="sem-dado" *ngIf="!log.valorAnterior && !log.valorNovo">—</span>
+              </td>
+              <td>
+                <span class="data-text">{{ log.dataHora | date:'dd/MM/yyyy HH:mm:ss' }}</span>
+              </td>
+            </tr>
+          }
+
+          @if (listaFiltrada.length === 0) {
+            <tr>
+              <td colspan="7">
+                <div class="empty-state">
+                  <i class="fas fa-shield-alt"></i>
+                  <p>Nenhum registro encontrado</p>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>

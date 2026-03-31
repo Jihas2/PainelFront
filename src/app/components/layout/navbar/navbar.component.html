@@ -11,23 +11,39 @@
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
         <li class="nav-item">
           <a class="nav-link" href="principal/itens"
-            [class.active-link]="isActive('itens')">Itens</a>
+            [class.active-link]="isActive('itens')">
+            <i class="fas fa-boxes me-1"></i> Itens
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="principal/transacoes"
-            [class.active-link]="isActive('transacoes')">Transações</a>
+            [class.active-link]="isActive('transacoes')">
+            <i class="fas fa-exchange-alt me-1"></i> Transações
+          </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="principal/extratos"
-            [class.active-link]="isActive('extratos')">Extratos</a>
+            [class.active-link]="isActive('extratos')">
+            <i class="fas fa-file-invoice-dollar me-1"></i> Extratos
+          </a>
         </li>
         <li class="nav-item" *ngIf="isDemandante()">
           <a class="nav-link" href="principal/usuarios/new"
-            [class.active-link]="isActive('usuarios')">Cadastrar Usuario</a>
+            [class.active-link]="isActive('usuarios')">
+            <i class="fas fa-user-plus me-1"></i> Cadastrar Usuário
+          </a>
         </li>
         <li class="nav-item" *ngIf="isDemandante()">
           <a class="nav-link" href="principal/cadastros"
-            [class.active-link]="isActive('cadastros')">Cadastros</a>
+            [class.active-link]="isActive('cadastros')">
+            <i class="fas fa-users-cog me-1"></i> Cadastros
+          </a>
+        </li>
+        <li class="nav-item" *ngIf="isDemandante()">
+          <a class="nav-link" href="principal/auditoria"
+            [class.active-link]="isActive('auditoria')">
+            <i class="fas fa-shield-alt me-1"></i> Auditoria
+          </a>
         </li>
       </ul>
       <ul class="navbar-nav d-flex align-items-center gap-2">

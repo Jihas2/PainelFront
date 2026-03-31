@@ -8,6 +8,7 @@ import { TransacoesFormComponent } from './components/transacoes/transacoes-form
 import { ExtratosListComponent } from './components/extratos/extratos-list/extratos-list.component';
 import { UsuariosFormComponent } from './components/usuarios/usuarios-form/usuarios-form.component';
 import { CadastrosListComponent } from './components/cadastros/cadastros-list/cadastros-list.component';
+import { AuditoriaListComponent } from './components/auditoria/auditoria-list/auditoria-list.component';
 import { LoginComponent } from './components/layout/login/login.component';
 import { authGuard } from './auth/auth.guard';
 import { adminGuard } from './auth/admin.guard';
@@ -31,9 +32,8 @@ export const routes: Routes = [
       { path: 'transacoes/edit/:id', component: TransacoesFormComponent },
       { path: 'extratos', component: ExtratosListComponent },
       { path: 'usuarios/new', component: UsuariosFormComponent, canActivate: [adminGuard] },
-      
-      // NOVA ROTA: Gerenciamento de Cadastros (apenas para DEMANDANTE)
       { path: 'cadastros', component: CadastrosListComponent, canActivate: [DemandanteGuard] },
+      { path: 'auditoria', component: AuditoriaListComponent, canActivate: [DemandanteGuard] },
     ],
   },
 ];
