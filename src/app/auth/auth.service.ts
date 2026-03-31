@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { BehaviorSubject, Observable, tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, tap } from 'rxjs';
 import { TipoUsuario } from '../models/enum';
 import { Usuario } from '../models/usuario';
-import { jwtDecode, JwtPayload } from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { Login } from './login';
 import { environment } from '../../environments/environment';
 
@@ -15,6 +15,7 @@ export interface LoginResponse {
   tipoUsuario: TipoUsuario;
   mensagem: string;
 }
+
 export interface DecodedToken {
   role: string;
   id: number;
@@ -22,7 +23,6 @@ export interface DecodedToken {
   iat: number;
   exp: number;
 }
-
 
 @Injectable({
   providedIn: 'root',
@@ -42,7 +42,6 @@ export class AuthService {
           ativo: true
         };
         localStorage.setItem('usuario', JSON.stringify(usuario));
-        console.log('Usuário armazenado:', usuario);
       })
     );
   }
@@ -60,22 +59,38 @@ export class AuthService {
     return localStorage.getItem('token');
   }
 
+  // Decodifica o token JWT e retorna os dados
   jwtDecode(): DecodedToken | null {
     const token = this.getToken();
     if (!token) return null;
-    return jwtDecode<DecodedToken>(token);
+    try {
+      return jwtDecode<DecodedToken>(token);
+    } catch {
+      return null;
+    }
   }
 
-  hasRole(role: string) {
-    const user = this.getUsuarioLogado();
-    if (user) {
-      console.log('Verificando role:', user.tipoUsuario, '===', role);
-      return user.tipoUsuario === role;
-    }
-    return false;
+  // Verifica se o token ainda é válido (não expirado)
+  isTokenValido(): boolean {
+    const decoded = this.jwtDecode();
+    if (!decoded) return false;
+    const agora = Math.floor(Date.now() / 1000);
+    return decoded.exp > agora;
+  }
+
+  hasRole(role: string): boolean {
+    const decoded = this.jwtDecode();
+    if (!decoded) return false;
+    if (!this.isTokenValido()) return false;
+    return decoded.role === role;
   }
 
   getUsuarioLogado(): Usuario | null {
+    if (!this.isTokenValido()) {
+      // Token expirado — limpa tudo e força novo login
+      this.removerToken();
+      return null;
+    }
     const usuarioStr = localStorage.getItem('usuario');
     if (usuarioStr) {
       return JSON.parse(usuarioStr) as Usuario;
