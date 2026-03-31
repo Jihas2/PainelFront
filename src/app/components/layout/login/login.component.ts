@@ -54,7 +54,13 @@ export class LoginComponent {
         }
       },
       error: (err) => {
-        Swal.fire('Erro no Login', 'Email ou Senha Incorrectos!', 'error');
+        // Lê a mensagem real que vem do backend
+        const mensagem = err?.error?.erro || 'Email ou Senha Incorretos!';
+
+        // Se for bloqueio (429), mostra título diferente
+        const titulo = err?.status === 429 ? 'Conta Bloqueada' : 'Erro no Login';
+
+        Swal.fire(titulo, mensagem, 'error');
       }
     });
   }
