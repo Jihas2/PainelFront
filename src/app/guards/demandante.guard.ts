@@ -7,7 +7,7 @@ import Swal from 'sweetalert2';
   providedIn: 'root'
 })
 export class DemandanteGuard implements CanActivate {
-  
+
   authService = inject(AuthService);
   router = inject(Router);
 
@@ -15,27 +15,31 @@ export class DemandanteGuard implements CanActivate {
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): boolean {
-    
-    // Verifica se o usuário está logado
-    const usuario = this.authService.getUsuarioLogado();
-    
-    if (!usuario) {
-      Swal.fire('Acesso Negado', 'Você precisa estar logado', 'error');
+
+    // Verifica se está logado e se o token não expirou
+    if (!this.authService.isTokenValido()) {
+      this.authService.removerToken();
+      Swal.fire({
+        title: 'Sessão Expirada',
+        text: 'Faça login novamente para continuar',
+        icon: 'warning',
+        confirmButtonText: 'Ok'
+      });
       this.router.navigate(['/login']);
       return false;
     }
 
-    // Verifica se é DEMANDANTE
-    if (usuario.tipoUsuario !== 'DEMANDANTE') {
-      Swal.fire(
-        'Acesso Negado', 
-        'Esta página é restrita para demandantes', 
-        'error'
-      );
-      this.router.navigate(['/principal/dashboard']);
-      return false;
+    // Role lida do JWT
+    if (this.authService.hasRole('DEMANDANTE')) {
+      return true;
     }
 
-    return true;
+    Swal.fire({
+      title: 'Acesso Negado',
+      text: 'Esta página é restrita para demandantes',
+      icon: 'error'
+    });
+    this.router.navigate(['/principal/dashboard']);
+    return false;
   }
 }

@@ -7,17 +7,27 @@ export const adminGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  const user = authService.getUsuarioLogado();
-  
-  if (user && user.tipoUsuario === 'DEMANDANTE') {
-    return true;
-  } else {
+  if (!authService.isTokenValido()) {
+    authService.removerToken();
     Swal.fire({
-      icon: 'error',
-      title: 'Acesso Negado',
-      text: 'Apenas usuários DEMANDANTE podem acessar esta página',
+      title: 'Sessão Expirada',
+      text: 'Faça login novamente para continuar',
+      icon: 'warning',
+      confirmButtonText: 'Ok'
     });
-    router.navigate(['/principal/dashboard']);
+    router.navigate(['/login']);
     return false;
   }
+
+  if (authService.hasRole('DEMANDANTE')) {
+    return true;
+  }
+
+  Swal.fire({
+    icon: 'error',
+    title: 'Acesso Negado',
+    text: 'Apenas usuários DEMANDANTE podem acessar esta página',
+  });
+  router.navigate(['/principal/dashboard']);
+  return false;
 };
