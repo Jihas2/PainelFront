@@ -42,7 +42,7 @@ export class AuthService {
           tipoUsuario: response.tipoUsuario,
           ativo: true
         };
-        localStorage.setItem('usuario', JSON.stringify(usuario));
+        sessionStorage.setItem('usuario', JSON.stringify(usuario));
       })
     );
   }
@@ -54,7 +54,7 @@ export class AuthService {
 
   removerToken() {
     sessionStorage.removeItem('token');
-    localStorage.removeItem('usuario');
+    sessionStorage.removeItem('usuario');
   }
 
   getToken() {
@@ -90,7 +90,7 @@ export class AuthService {
       this.removerToken();
       return null;
     }
-    const usuarioStr = localStorage.getItem('usuario');
+    const usuarioStr = sessionStorage.getItem('usuario');
     if (usuarioStr) {
       return JSON.parse(usuarioStr) as Usuario;
     }
