@@ -7,8 +7,9 @@ import Swal from 'sweetalert2';
 export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
   let router = inject(Router);
 
-  let token = localStorage.getItem('token');
-  
+  // Lê do sessionStorage — limpa ao fechar o navegador/aba
+  let token = sessionStorage.getItem('token');
+
   if (token) {
     request = request.clone({
       setHeaders: { Authorization: 'Bearer ' + token },
@@ -18,7 +19,6 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
   return next(request).pipe(
     catchError((err: any) => {
       if (err instanceof HttpErrorResponse) {
-        
         if (err.status === 401) {
           Swal.fire({
             icon: 'error',
@@ -34,7 +34,6 @@ export const meuhttpInterceptor: HttpInterceptorFn = (request, next) => {
         } else {
           console.error('HTTP error:', err);
         }
-
       } else {
         Swal.fire({
           icon: 'error',

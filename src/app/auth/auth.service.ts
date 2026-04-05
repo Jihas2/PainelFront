@@ -34,6 +34,7 @@ export class AuthService {
   logar(login: Login): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(`${this.API}/login`, login).pipe(
       tap((response) => {
+        // Dados de exibição ficam no localStorage (nome, email)
         const usuario = {
           id: response.id,
           nome: response.nome,
@@ -47,19 +48,19 @@ export class AuthService {
   }
 
   addToken(token: string) {
-    localStorage.setItem('token', token);
+    // Token fica no sessionStorage — limpa ao fechar o navegador/aba
+    sessionStorage.setItem('token', token);
   }
 
   removerToken() {
-    localStorage.removeItem('token');
+    sessionStorage.removeItem('token');
     localStorage.removeItem('usuario');
   }
 
   getToken() {
-    return localStorage.getItem('token');
+    return sessionStorage.getItem('token');
   }
 
-  // Decodifica o token JWT e retorna os dados
   jwtDecode(): DecodedToken | null {
     const token = this.getToken();
     if (!token) return null;
@@ -70,7 +71,6 @@ export class AuthService {
     }
   }
 
-  // Verifica se o token ainda é válido (não expirado)
   isTokenValido(): boolean {
     const decoded = this.jwtDecode();
     if (!decoded) return false;
@@ -87,7 +87,6 @@ export class AuthService {
 
   getUsuarioLogado(): Usuario | null {
     if (!this.isTokenValido()) {
-      // Token expirado — limpa tudo e força novo login
       this.removerToken();
       return null;
     }
